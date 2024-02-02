@@ -1,0 +1,9 @@
+torch
+torchvision
+diffusers
+transformers
+opencv-python
+omegaconf
+tqdm
+numpy
+safetensors

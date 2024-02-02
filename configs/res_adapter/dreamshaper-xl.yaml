@@ -1,0 +1,31 @@
+task: "t2i"
+experiment_name: "dreamshaper-xl"
+
+# Model Configs
+personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/dreamshaper-xl-1-0"
+model_type: "sdxl"
+res_adapter_model: "models/res_adapter/sdxl"
+res_adapter_alpha: 1.0
+
+# Inference Configs
+width: 1536
+height: 1536
+scale_ratio: null
+num_inference_steps: 25
+guidance_scale: 7.5
+num_images_per_prompt: 2
+
+prompts: [
+  "(masterpiece), (extremely intricate), (realistic), portrait of a girl, the most beautiful in the world, (medieval armor), metal reflections, upper body, outdoors, intense sunlight, far away castle, professional photograph of a stunning woman detailed, sharp focus, dramatic, award winning, cinematic lighting, octane render unreal engine, volumetrics dtx, (film grain, blurry background, blurry foreground, bokeh, depth of field, sunset, motion blur), chainmail",
+  "Portrait photo of muscular bearded guy in a worn mech suit, ((light bokeh)), intricate, (steel metal [rust]), elegant, sharp focus, photo by greg rutkowski, soft lighting, vibrant colors, (masterpiece), ((streets)), (detailed face), (glowing blue eyes)"
+]
+
+n_prompt: "ugly, deformed, noisy, blurry, low contrast, text, BadDream, 3d, cgi, render, fake, anime, open mouth, big forehead, long neck"
+
+# Other Configs
+enable_xformers: true
+enable_compare: true
+draw_text: true
+seed: 42
+device: cuda
+split_images: false

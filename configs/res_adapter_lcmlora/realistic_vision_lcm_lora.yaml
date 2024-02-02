@@ -1,0 +1,32 @@
+task: "t2i_accelerate"
+experiment_name: ""
+
+# Model Configs
+personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/civitai/realisticVisionV60B1_v60B1VAE.safetensors"
+model_type: "sd1.5"
+res_adapter_model: "models/res_adapter/sd1.5"
+res_adapter_alpha: 1.0
+lcm_lora_path: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/lcm-lora-sdv1-5"
+lcm_lora_alpha: 1.0
+
+# Inference Configs
+width: 256
+height: 256
+num_inference_steps: 4
+guidance_scale: 1
+num_images_per_prompt: 2
+
+prompts: [
+  "edgy pinterest woman, 20 years old, wearing a oversized sweater, happy, dimples, natural look, sunny, soft lighting, emotional, grainy, Ultra-Crisp Imagery, Razor-Sharp Focus, sharp focus on subject",
+  "upper body portrait, raw essence of a tattoed street style icon, drenched in rebellious energy, wearing oversized flannel shirt, vibrant graffiti as backdrop, edgy fashion, sense, confident gaze, colorful hair, light beams streaming through haze, Incredibly Sharp, Vividly Defined.",
+]
+
+n_prompt: "(deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers), (deformed, distorted, disfigured:1.3), poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
+
+# Other Configs
+enable_xformers: true
+enable_compare: true
+draw_text: true
+seed: 42
+device: cuda
+split_images: false
