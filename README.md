@@ -97,15 +97,15 @@ python3 main.py --config configs/res_adapter_controlnet/controlnet_image2image.y
 python3 main.py --config configs/res_adapter_ip_adapter/ip_adapter_inpaint.yaml
 ```
 
-![IP-Adapter-Inpaint](assets/misc/IP-Adapter-Image.jpeg)
-![IP-Adapter-Inpaint](assets/misc/IP-Adapter-inpaint.jpeg)
+![IP-Adapter-Inpaint](assets/misc/ip-adapter-image.jpeg)
+![IP-Adapter-Inpaint](assets/misc/ip-adapter-inpaint.jpeg)
 
 #### LCM-LoRA
 ```
 python3 main.py --config configs/res_adapter_lcmlora/dreamshaperxl_lcm_lora.yaml
 ```
 
-![LCM-LoRA](assets/misc/LCM-LoRA.jpeg)
+![LCM-LoRA](assets/misc/lcm-lora.jpeg)
 
 
 **Best Practice**
