@@ -1,4 +1,17 @@
-# Inference for res-adapter with personalied diffusion models.
+# Copyright (2024) Bytedance Ltd. and/or its affiliates 
+
+# Licensed under the Apache License, Version 2.0 (the "License"); 
+# you may not use this file except in compliance with the License. 
+# You may obtain a copy of the License at 
+
+#     http://www.apache.org/licenses/LICENSE-2.0 
+
+# Unless required by applicable law or agreed to in writing, software 
+# distributed under the License is distributed on an "AS IS" BASIS, 
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+# See the License for the specific language governing permissions and 
+# limitations under the License. 
+
 import argparse
 import datetime
 import os
@@ -250,17 +263,17 @@ def main():
                 if config.split_images:
                     for q in range(len(texts)):
                         save_image(
-                            compare_image[q], os.path.join(output_dir, f"{prompt[:100]}_{j}_{texts[q]}.jpg"), normalize=True, value_range=(0, 1), nrow=2,
+                            compare_image[q], os.path.join(output_dir, f"{prompt[:100]}_{j}_{texts[q]}.jpg"), normalize=True, value_range=(0, 1), nrow=2, padding=0,
                         )
                 else:
                     save_image(
-                        compare_image, os.path.join(output_dir, f"{prompt[:100]}_{j}.jpg"), normalize=True, value_range=(0, 1), nrow=2,
+                        compare_image, os.path.join(output_dir, f"{prompt[:100]}_{j}.jpg"), normalize=True, value_range=(0, 1), nrow=2, padding=0,
                     )
         else:
             compare_image = resadapter_images[i]
             for m in range(config.num_images_per_prompt):
                 save_image(
-                    compare_image[m], os.path.join(output_dir, f"{prompt[:100]}_{m}.jpg"), normalize=True, value_range=(0, 1), nrow=2,
+                    compare_image[m], os.path.join(output_dir, f"{prompt[:100]}_{m}.jpg"), normalize=True, value_range=(0, 1), nrow=2, padding=0,
                 )
         print(f"Saving image to {os.path.join(output_dir, f'{prompt[:100]}.jpg')}")
 
