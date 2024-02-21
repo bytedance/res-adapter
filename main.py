@@ -53,8 +53,9 @@ def main():
         # pipeline = load_t2i_adapter_pipeline(config)    
     if config.task == "ip_adapter":
         pipeline = load_ip_adapter_pipeline(config)
-        
-    pipeline = pipeline.to(config.device)
+    
+    device = torch.device(f"cuda:{config.device}")
+    pipeline = pipeline.to(device)
 
     if config.enable_xformers:
         print("Enable xformers successfully.")
@@ -153,7 +154,7 @@ def main():
     # #### 4.Inference pipeline ####
 
     if config.seed:
-        generator = torch.Generator(device=config.device).manual_seed(config.seed)
+        generator = torch.Generator(device=device).manual_seed(config.seed)
     else:
         generator = None
 
