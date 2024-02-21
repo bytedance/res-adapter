@@ -26,20 +26,11 @@ def draw_text_on_images(image, text):
     else:
         font_scale = 0.2
     font_size = int(font_scale * max_length)
-
     font = ImageFont.truetype("assets/Times-Newer-Roman-Bold-Italic.otf", size=font_size)
 
     offset = 10
     x = offset
-    y = image.shape[-2] - font_size - offset
-
-    bg_color = (192, 192, 192)
-
-    bg_x1 = x - 5
-    bg_y1 = y - 5
-    bg_x2 = image.shape[-1]
-    bg_y2 = image.shape[-2]
-    draw.rectangle([bg_x1, bg_y1, bg_x2, bg_y2], fill=bg_color)
+    y = offset
 
     draw.text((x, y), text, fill=(56, 136, 239), font=font)
     image = transforms.ToTensor()(pil_image)
