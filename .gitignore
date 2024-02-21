@@ -167,9 +167,6 @@ tags
 # RL pipelines may produce mp4 outputs
 *.mp4
 
-# dependencies
-/transformers
-
 # ruff
 .ruff_cache
 
