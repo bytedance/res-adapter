@@ -12,12 +12,11 @@ from torchvision.utils import save_image
 from tqdm import tqdm
 from omegaconf import OmegaConf
 
-from resadapter.utils import (
-    draw_text_on_images, 
-    load_resadapter, 
+from resadapter.model_loader import load_resadapter
+from resadapter.utils import draw_text_on_images
+from resadapter.pipeline_loader import (
     load_controlnet_pipeline, 
     load_ip_adapter_pipeline, 
-    # load_t2i_adapter_pipeline, 
     load_text2image_pipeline,
     load_text2image_lcm_lora_pipeline,
     )
@@ -49,8 +48,6 @@ def main():
         pipeline = load_text2image_lcm_lora_pipeline(config)
     if config.task == "controlnet":
         pipeline = load_controlnet_pipeline(config)
-    # if config.task == "t2i_adapter":
-        # pipeline = load_t2i_adapter_pipeline(config)    
     if config.task == "ip_adapter":
         pipeline = load_ip_adapter_pipeline(config)
     
