@@ -26,7 +26,7 @@ def draw_text_on_images(image, text):
     else:
         font_scale = 0.2
     font_size = int(font_scale * max_length)
-    font = ImageFont.truetype("Chalkduster.ttf", size=font_size)
+    font = ImageFont.truetype("assets/Chalkduster.ttf", size=font_size)
 
     offset = 10
     x = offset
