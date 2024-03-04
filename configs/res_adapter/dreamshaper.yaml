@@ -1,15 +1,15 @@
 task: "t2i"
-experiment_name: "dreamshaper-384x384"
+experiment_name: ""
 
 # Model Configs
-personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/dreamshaper-7"
+personalized_model: "/path/to/model"
 model_type: "sd1.5"
-res_adapter_model: "models/res_adapter/sd1.5"
-res_adapter_alpha: 0.7
+res_adapter_model: "/path/to/model"
+res_adapter_alpha: 1.0
 
 # Inference Configs
-width: 672
-height: 864
+width: 256
+height: 256
 num_inference_steps: 25
 guidance_scale: 7.5
 num_images_per_prompt: 4

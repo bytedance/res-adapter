@@ -1,14 +1,14 @@
 task: "ip_adapter"
 sub_task: "image_variation"
-experiment_name: "ip_adapter_face_variation-672x864"
+experiment_name: ""
 
 # Model Configs
-personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/stable-diffusion-v1-5"
+personalized_model: "/path/to/model"
 model_type: "sd1.5"
-ip_adapter_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/IP-Adapter"
+ip_adapter_model: "/path/to/model"
 ip_adapter_weight_name: "face"
 ip_adapter_scale: 0.7
-res_adapter_model: "models/res_adapter/sd1.5"
+res_adapter_model: "/path/to/model"
 res_adapter_alpha: 1.0
 
 # Inference Configs

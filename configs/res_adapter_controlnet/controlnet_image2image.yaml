@@ -1,13 +1,13 @@
 task: "controlnet"
 sub_task: "image_to_image"
-experiment_name: "controlnet-1.5"
+experiment_name: ""
 
 
 # Model Configs
-personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/stable-diffusion-v1-5"
+personalized_model: "/path/to/model"
 model_type: "sd1.5"
-controlnet_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/control_v11p_sd15_canny"
-res_adapter_model: "models/res_adapter/sd1.5"
+controlnet_model: "/path/to/model"
+res_adapter_model: "/path/to/model"
 res_adapter_alpha: 1.0
 
 
@@ -21,27 +21,13 @@ guidance_scale: 7.5
 num_images_per_prompt: 4
 
 source_images: [
-  # "assets/controlnet/dog.png",
   "assets/controlnet/bird.png",
-  # "assets/controlnet/boy.png",
-  # "assets/controlnet/building.png",
-  # "assets/controlnet/cyber.png",
   "assets/controlnet/dog2.png",
-  # "assets/controlnet/human.png",
-  # "assets/controlnet/man.png",
-  # "assets/controlnet/old.png",
 ]
 
 prompts: [
-  # "cute dog",
   "bird",
-  # "boy",
-  # "building",
-  # "cyber man",
   "cute dog",
-  # "human",
-  # "man",
-  # "old man",
 ]
 
 n_prompt: "lowres, bad anatomy, worst quality, low quality"
@@ -50,7 +36,7 @@ n_prompt: "lowres, bad anatomy, worst quality, low quality"
 # Other Configs
 enable_xformers: true
 enable_compare: true
-draw_text: false
-seed: 432
+draw_text: true
+seed: 42
 device: 0
 split_images: false

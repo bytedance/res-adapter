@@ -1,14 +1,14 @@
 task: "ip_adapter"
 sub_task: "image_variation"
-experiment_name: "ip_adapter_variation-256x256"
+experiment_name: ""
 
 # Model Configs
-personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/stable-diffusion-v1-5"
+personalized_model: "/path/to/model"
 model_type: "sd1.5"
-ip_adapter_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/IP-Adapter"
+ip_adapter_model: "/path/to/model"
 ip_adapter_weight_name: "general"
 ip_adapter_scale: 0.6
-res_adapter_model: "models/res_adapter/sd1.5"
+res_adapter_model: "/path/to/model"
 res_adapter_alpha: 1.0
 
 # Inference Configs
@@ -35,7 +35,7 @@ n_prompt: "monochrome, lowres, bad anatomy, worst quality, low quality"
 # Other Configs
 enable_xformers: false  # Must false for ip-adapter, otherwise error occurs...
 enable_compare: true
-draw_text: false
+draw_text: true
 seed: 42
 device: 0
 split_images: false
