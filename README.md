@@ -1,4 +1,4 @@
-# ___***ResAdapter: Domain Consistent Resolution Adapter for Personalized Diffusion Models***___
+# ___***ResAdapter: Domain Consistent Resolution Adapter for Diffusion Models***___
 
 <a href='https://ip-adapter.github.io'><img src='https://img.shields.io/badge/Project-Page-green'></a> 
 <a href='https://arxiv.org/abs/2308.06721'><img src='https://img.shields.io/badge/ Paper-Arxiv-red'></a> 
@@ -94,24 +94,38 @@ You can download these modules below:
 python3 main.py --config configs/res_adapter_controlnet/controlnet_image2image.yaml
 ```
 
+Image to image tasks for ControlNet.
+
 ![ControlNet](assets/misc/controlnet-sd.png)
 
 ```
 python3 main.py --config configs/res_adapter_controlnet/controlnet_image2image.yaml
 ```
+
+Image to image tasks for ControlNet-XL.
+
 ![ControlNet](assets/misc/controlnet-xl.png)
 
 
 #### IP-Adapter
 ```
-python3 main.py --config configs/res_adapter_ip_adapter/ip_adapter_inpaint.yaml
+python3 main.py --config [config.path]
 ```
+
+Image varations for IP-Adapter.
 
 ![IP-Adapter-Inpaint](assets/misc/ipv.png)
 
+Image varations for IP-Adapter-XL.
+
 ![LCM-LoRA](assets/misc/ipv-xl.png)
 
+Face varations for IP-Adapter.
+
 ![LCM-LoRA](assets/misc/facev.png)
+
+Inpainting for IP-Adapter.
+
 
 ![LCM-LoRA](assets/misc/ipin.png)
 
@@ -135,7 +149,7 @@ python3 main.py --config configs/res_adapter_lcmlora/dreamshaperxl_lcm_lora.yaml
 If you find ResAdapter useful for your research and applications, please cite using this BibTeX:
 ```bibtex
 @article{cheng2024res-adapter,
-  title={ResAdapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models},
+  title={ResAdapter: Domain Consistent Resolution Adapter for Diffusion Models},
   author={Cheng, Jiaxiang and Xie, Pan and Xia, Xin and Li, Jiashi and Wu, Jie and Ren, Yuxi and Li, Huixia and Xiao, Xuefeng and Zheng, Min and Fu, Lean},
   booktitle={arXiv preprint arxiv:2308.06721},
   year={2024}
