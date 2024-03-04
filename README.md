@@ -1,16 +1,13 @@
 # ___***ResAdapter: Domain Consistent Resolution Adapter for Diffusion Models***___
 
 <a href='https://res-adapter.github.io/'><img src='https://img.shields.io/badge/Project-Page-green'></a> 
-<a href='https://arxiv.org/abs/2308.06721'><img src='https://img.shields.io/badge/ Paper-Arxiv-red'></a> 
+<a href=''><img src='https://img.shields.io/badge/ Paper-Arxiv-red'></a> 
 <a href='https://huggingface.co/jiaxiangc/res-adapter'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-blue'></a>
-[![GitHub](https://img.shields.io/github/stars/tencent-ailab/IP-Adapter?style=social)](https://github.com/tencent-ailab/IP-Adapter/)
+<!-- [![GitHub](https://img.shields.io/github/stars/bytedance/res-adapter/?style=social)](https://github.com/bytedance/res-adapter/) -->
 
 
 
-<p float="left">
-  <img src="./assets/misc/dreamlike2.png" width="100" />
-  <img src="./assets/misc/dreamlike1.png" width="100" /> 
-</p>
+![toutu1](./assets/misc/dreamlike2.png)![toutu1](./assets/misc/dreamlike1.png)
 
 
 ---
@@ -113,9 +110,6 @@ Image to image tasks for ControlNet-XL.
 python3 main.py --config [config.path]
 ```
 
-Image varations for IP-Adapter.
-
-![IP-Adapter-Inpaint](assets/misc/ipv.png)
 
 Image varations for IP-Adapter-XL.
 
