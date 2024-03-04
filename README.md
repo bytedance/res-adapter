@@ -6,7 +6,7 @@
 <!-- [![GitHub](https://img.shields.io/github/stars/bytedance/res-adapter/?style=social)](https://github.com/bytedance/res-adapter/) -->
 
 
-<img src="assets/misc/dreamlike2.png" width="50%" height=450><img src="assets/misc/dreamlike1.png" width="50%" height=450>
+<img src="assets/misc/dreamlike2.png" width="50%" height=420><img src="assets/misc/dreamlike1.png" width="50%" height=420>
 
 
 
