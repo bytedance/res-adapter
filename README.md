@@ -6,7 +6,12 @@
 [![GitHub](https://img.shields.io/github/stars/tencent-ailab/IP-Adapter?style=social)](https://github.com/tencent-ailab/IP-Adapter/)
 
 
-![toutu](assets/misc/figures_1_Page1.png)
+<!-- ![toutu](assets/misc/dreamlike2.png) -->
+
+<div style="display: flex; justify-content: center;">
+  <img src="assets/misc/dreamlike1.png" alt="Image 1" style="width: 50%;">
+  <img src="assets/misc/dreamlike2.png" alt="Image 2" style="width: 50%;">
+</div>
 
 
 ---
@@ -14,19 +19,19 @@
 
 ## Abstract
 
-The advancement of text-to-image models (e.g., Stable Diffusion) and corresponding personalized technologies (e.g., DreamBooth and LoRA) enables individuals to generate high-quality, imaginative images.
-However, they suffer from limitations in resolution extrapolation and interpolation: the quality of generated images above and below the training resolution significantly degrades. 
-We attribute it to two reasons: the mismatch between the receptive field of UNet's convolution and the feature map size of images; the inability of UNet's normalization to adapt to the statistical distribution of feature maps in multi-resolution images.
-To address this issue, we present a style domain-consistent Resolution Adapter (ResAdapter), which contains two components: resolution lora (ResLoRA) and resolution normalization (ResNorm).
-ResLoRA can adaptively adjust the feature map size of images to match the receptive field of convolutions in the UNet's blocks, improving the fidelity of the images.
-ResNorm can adapt to the statistical distribution of the feature map of multi-resolution images, improving the object layout.
-Our experiments demonstrate that after learning the resolution priors, ResAdapter with only 0.51M can can be integrated into any personalized model to generate multi-resolution images without transforming the style domain. 
-Our extensive experiments demonstrate that ResAdapter is compatible with other modules (e.g., LCM-LoRA, ControlNet and IP-Adapter), and can be integrated into other multi-resolution models (e.g., ElasticDiffusion) for efficiently generating 2048x2048 high-resolution images.
+Recent advancement in text-to-image models (e.g., Stable Diffusion) and corresponding personalized technologies (e.g., DreamBooth and LoRA) enables individuals to generate high-quality and imaginative images.
+However, they often suffer from limitations when generating images with resolutions outside of their trained domain.
+To overcome this limitation, we present the Resolution Adapter (ResAdapter), a domain-consistent adapter designed for diffusion models to generate images with unrestricted resolutions and aspect ratios.
+Unlike other multi-resolution generation methods that process images of static resolution with complex post-process operations, ResAdapter directly generates images with the dynamical resolution.  
+% This perspective enables the efficient inference without repeat denoising steps and complex post-process operations, thus eliminating the additional inference time.
+Especially, after acquiring a deep understanding of pure resolution priors, ResAdapter trained on the general dataset, generates resolution-free images with personalized diffusion models while preserving their original style domain.
+Comprehensive experiments demonstrate that ResAdapter with only 0.5M can process images with flexible resolutions for arbitrary diffusion models.
+More extended experiments demonstrate that ResAdapter is compatible with other modules (e.g., ControlNet, IP-Adapter and LCM-LoRA) for images across a broad range of resolutions, and can be integrated into other multi-resolution model (e.g., ElasticDiffusion) for efficiently generating higher-resolution images.
 
-![arch](assets/misc/figures_3_Page1.png)
+![arch](assets/misc/pipeline.png)
 
 ## Release
-- [2024/2/21] 🔥 We release the code and models.
+- [2024/3/4] 🔥 We release the code and models.
 
 
 ## Installation
@@ -42,18 +47,19 @@ pip install -r requirements.txt
 ## Models
 
 ### Download ResAdapter
-|Models  | Parameters | Links |
-| --- | --- |--- |
-|SDv1.5 | 860M |[Download](https://huggingface.co/runwayml/stable-diffusion-v1-5)|
-|SDXL1.0 |2.6B |[Download](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0) | 
-|ResAdapter| 0.74M | Download|
-|ResAdapter-XL| 0.55M | Download|
+|Models  | Parameters | Versions | Links |
+| --- | --- |--- | --- |
+|SDv1.5 | 860M | --- |[Download](https://huggingface.co/runwayml/stable-diffusion-v1-5)|
+|SDXL1.0 |2.6B | --- |[Download](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0) | 
+|ResAdapter-RI| 0.74M | Resolution Interpolation | Download|
+|ResAdapter-XL-RI| 0.55M | Resolution Interpolation | Download|
 
 ### Download Personalized Models
 |Models  | Structure Type |Domain Type |Links |
 | --- | --- |--- |--- |
 |RealisticVision|SDv1.5 |Realism | [Download](https://civitai.com/models/4201/realistic-vision-v60-b1)
 |Dreamshaper|SDv1.5|2.5D | [Download](https://civitai.com/models/4384?modelVersionId=351306)
+|Dreamlike| SDv1.5 | Fantasy | [Download](https://civitai.com/models/1274/dreamlike-diffusion-10)
 |DreamshaperXL|SDXL |2.5D | [Download](https://civitai.com/models/112902/dreamshaper-xl)
 |AnimeartXL|SDXL |Anime | [Download](https://civitai.com/models/117259/anime-art-diffusion-xl)
 
@@ -64,13 +70,8 @@ pip install -r requirements.txt
 python3 main.py --config configs/res_adapter/dreamshaper-xl.yaml
 ```
 
-![DreamshaperXL 1536x1536](assets/misc/appendix_1_Page1.png)
+![DreamshaperXL](assets/misc/dreamshaperxl2.png)
 
-```
-python3 main.py --config configs/res_adapter/dreamshaper-xl.yaml
-```
-
-![Dreamlike 1024x1024](assets/misc/appendix_2_Page1.png)
 
 ### Other Modules
 
@@ -81,31 +82,47 @@ You can download these modules below:
 |Modules | Name | Type | Links |
 | --- |--- | --- | --- |
 |ControlNet| lllyasviel/sd-controlnet-canny |SD1.5 | [Download](https://huggingface.co/lllyasviel/sd-controlnet-canny)
+|ControlNet| diffusers/controlnet-canny-sdxl-1.0 |SDXL | [Download](https://huggingface.co/diffusers/controlnet-canny-sdxl-1.0)
 |IP-Adapter| h94/IP-Adapter | SD1.5/SDXL | [Download](https://huggingface.co/h94/IP-Adapter)
 |LCM-LoRA| latent-consistency/lcm-lora-sdv1-5 |SD1.5 | [Download](https://huggingface.co/latent-consistency/lcm-lora-sdv1-5)
 |LCM-LoRA| latent-consistency/lcm-lora-sdxl | SDXL| [Download](https://huggingface.co/latent-consistency/lcm-lora-sdxl)
 
 #### ControlNet
+
+
 ```
 python3 main.py --config configs/res_adapter_controlnet/controlnet_image2image.yaml
 ```
 
-![ControlNet](assets/misc/controlnet.png)
+![ControlNet](assets/misc/controlnet-sd.png)
+
+```
+python3 main.py --config configs/res_adapter_controlnet/controlnet_image2image.yaml
+```
+![ControlNet](assets/misc/controlnet-xl.png)
+
 
 #### IP-Adapter
 ```
 python3 main.py --config configs/res_adapter_ip_adapter/ip_adapter_inpaint.yaml
 ```
 
-![IP-Adapter-Inpaint](assets/misc/ip-adapter-image.jpeg)
-![IP-Adapter-Inpaint](assets/misc/ip-adapter-inpaint.jpeg)
+![IP-Adapter-Inpaint](assets/misc/ipv.png)
+
+![LCM-LoRA](assets/misc/ipv-xl.png)
+
+![LCM-LoRA](assets/misc/facev.png)
+
+![LCM-LoRA](assets/misc/ipin.png)
+
+
 
 #### LCM-LoRA
 ```
 python3 main.py --config configs/res_adapter_lcmlora/dreamshaperxl_lcm_lora.yaml
 ```
+![LCM-LoRA](assets/misc/lcmlora1.png)
 
-![LCM-LoRA](assets/misc/lcm-lora.jpeg)
 
 
 **Best Practice**
@@ -119,7 +136,7 @@ If you find ResAdapter useful for your research and applications, please cite us
 ```bibtex
 @article{cheng2024res-adapter,
   title={ResAdapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models},
-  author={Cheng, Jiaxiang and Xie, Pan and Xia, Xin and Li, Jiashi and Wu, Jie and Ren, Yuxi and Li, Huixia and Xiao, Xuefeng},
+  author={Cheng, Jiaxiang and Xie, Pan and Xia, Xin and Li, Jiashi and Wu, Jie and Ren, Yuxi and Li, Huixia and Xiao, Xuefeng and Zheng, Min and Fu, Lean},
   booktitle={arXiv preprint arxiv:2308.06721},
   year={2024}
 }

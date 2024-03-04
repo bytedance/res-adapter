@@ -1,11 +1,12 @@
 task: "ip_adapter"
 sub_task: "inpaint"
-experiment_name: ""
+experiment_name: "ip_adapter_inpaint-256x384"
 
 # Model Configs
 personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/stable-diffusion-v1-5"
 model_type: "sd1.5"
 ip_adapter_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/IP-Adapter"
+ip_adapter_weight_name: "general"
 ip_adapter_scale: 1.0
 res_adapter_model: "models/res_adapter/sd1.5"
 res_adapter_alpha: 1.0
@@ -18,7 +19,7 @@ scale_ratio: null  # scale the original image
 
 num_inference_steps: 50
 guidance_scale: 7.5
-num_images_per_prompt: 2
+num_images_per_prompt: 4
 
 source_images: ["assets/ip_adapter/inpaint_image.png"]
 mask_images: ["assets/ip_adapter/mask.png"]
@@ -35,7 +36,7 @@ n_prompt: "monochrome, lowres, bad anatomy, worst quality, low quality"
 # Other Configs
 enable_xformers: false  # Must false for ip-adapter, otherwise error occurs...
 enable_compare: true
-draw_text: true
+draw_text: false
 seed: 42
-device: cuda
+device: 0
 split_images: false

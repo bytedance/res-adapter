@@ -1,0 +1,41 @@
+task: "ip_adapter"
+sub_task: "image_variation"
+experiment_name: "ip_adapter_sdxl_variation-512x512"
+
+# Model Configs
+personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/stable-diffusion-xl-base-1.0"
+model_type: "sdxl"
+ip_adapter_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/IP-Adapter"
+ip_adapter_weight_name: "general"
+ip_adapter_scale: 1.0
+res_adapter_model: "models/res_adapter/sdxl"
+res_adapter_alpha: 1.0
+
+# Inference Configs
+width: 384
+height: 384
+scale_ratio: null  # scale the original image
+
+num_inference_steps: 25
+guidance_scale: 7.5
+num_images_per_prompt: 4
+
+ip_adapter_images: [
+  "assets/ip_adapter/watercolor_painting.jpeg",
+  "assets/ip_adapter/vermeer.jpg",
+]
+
+prompts: [
+  "best quality, high quality",
+  "beautiful women, best quality, high quality",
+]
+
+n_prompt: "monochrome, lowres, bad anatomy, worst quality, low quality"
+
+# Other Configs
+enable_xformers: false  # Must false for ip-adapter, otherwise error occurs...
+enable_compare: true
+draw_text: false
+seed: 42
+device: 0
+split_images: false

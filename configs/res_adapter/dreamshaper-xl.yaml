@@ -1,5 +1,5 @@
 task: "t2i"
-experiment_name: "dreamshaper-xl"
+experiment_name: "dreamshaper-xl-1536x1536"
 
 # Model Configs
 personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/dreamshaper-xl-1-0"
@@ -11,21 +11,30 @@ res_adapter_alpha: 1.0
 width: 1536
 height: 1536
 scale_ratio: null
-num_inference_steps: 25
+num_inference_steps: 30
 guidance_scale: 7.5
 num_images_per_prompt: 2
 
 prompts: [
-  "(masterpiece), (extremely intricate), (realistic), portrait of a girl, the most beautiful in the world, (medieval armor), metal reflections, upper body, outdoors, intense sunlight, far away castle, professional photograph of a stunning woman detailed, sharp focus, dramatic, award winning, cinematic lighting, octane render unreal engine, volumetrics dtx, (film grain, blurry background, blurry foreground, bokeh, depth of field, sunset, motion blur), chainmail",
-  "Portrait photo of muscular bearded guy in a worn mech suit, ((light bokeh)), intricate, (steel metal [rust]), elegant, sharp focus, photo by greg rutkowski, soft lighting, vibrant colors, (masterpiece), ((streets)), (detailed face), (glowing blue eyes)"
+  # "(masterpiece), (extremely intricate), (realistic), portrait of a girl, the most beautiful in the world, (medieval armor), metal reflections, upper body, outdoors, intense sunlight, far away castle, professional photograph of a stunning woman detailed, sharp focus, dramatic, award winning, cinematic lighting, octane render unreal engine, volumetrics dtx, (film grain, blurry background, blurry foreground, bokeh, depth of field, sunset, motion blur), chainmail",
+  # "Portrait photo of muscular bearded guy in a worn mech suit, ((light bokeh)), intricate, (steel metal [rust]), elegant, sharp focus, photo by greg rutkowski, soft lighting, vibrant colors, (masterpiece), ((streets)), (detailed face), (glowing blue eyes)",
+  # "cinematic film still, photo of a girl, cyberpunk, neonpunk, headset, city at night, sony fe 12-24mm f/2.8 gm, close up, 32k uhd, wallpaper, analog film grain, SONY headset",
+  "portrait of a soldier, man, cyberpunk, cyber warrior, wearing a black suit with a future theme and metal parts, (wearing a helmet:1.2), sci-fi, science fiction, sci-fi action scence, symmetrical eyes, fine details best quality, hyperdetailed face, photorealistic, highest quality, best shadow, high contrast, character design, moody, film grain, dark, highly detailed. photography, professional, 4k, 8k HD, highly detailed, professional",
+  "masterpiece, best quality, 1girl, sci-fi armor with black and red colors, glowing elements, redhair",
+  # "In Casey Baugh's evocative style, a Gothic girl emerges from the depths of darkness, her essence a captivating blend of mystery and allure. With piercing eyes and flowing ebony hair, she exudes an enigmatic presence that draws viewers into her world. Baugh's brushwork infuses the painting with a unique combination of realism and abstraction, highlighting the girl's delicate features and contrasting them against a backdrop of deep, rich hues. The interplay of light and shadow adds depth and dimension to the artwork, creating a hauntingly beautiful portrayal of this Gothic muse. Baugh's distinctive style captures the essence of the girl's enigmatic nature, inviting viewers to explore the depths of her soul. Signature",
 ]
 
-n_prompt: "ugly, deformed, noisy, blurry, low contrast, text, BadDream, 3d, cgi, render, fake, anime, open mouth, big forehead, long neck"
+# n_prompt: "ugly, deformed, noisy, blurry, low contrast, text, BadDream, 3d, cgi, render, fake, anime, open mouth, big forehead, long neck"
+# n_prompt: "(deformed iris, deformed pupils), text, worst quality, low quality, ugly"
+# n_prompt: "BadDream, FastNegativeV2, (((nsfw)))"
+# n_prompt: "text, watermark, low quality, medium quality, blurry, censored, wrinkles, deformed, mutated text, watermark, low quality, medium quality, blurry, censored, wrinkles, deformed, mutated embedding:BadDream embedding:UnrealisticDream"
+n_prompt: "deformed, cgi, text, signature, watermark, extra limbs, mole, scar"
+# n_prompt: "lowres, text, error, cropped, worst quality, low quality, jpeg artifacts, ugly, duplicate, morbid, mutilated, out of frame, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, deformed, blurry, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck, username, watermark, signature"
 
 # Other Configs
 enable_xformers: true
 enable_compare: true
-draw_text: true
-seed: 42
-device: cuda
+draw_text: false
+seed: 40
+device: 0
 split_images: false

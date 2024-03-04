@@ -1,0 +1,33 @@
+task: "t2i"
+experiment_name: "animeart-xl-1368x1608"
+
+# Model Configs
+personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/civitai/animeArtDiffusionXL_alpha3.safetensors"
+model_type: "sdxl"
+res_adapter_model: "models/res_adapter/sdxl"
+res_adapter_alpha: 1.0
+
+# Inference Configs
+width: 1608
+height: 1368
+scale_ratio: null
+num_inference_steps: 20
+guidance_scale: 7.5
+num_images_per_prompt: 4
+
+prompts: [
+  # "face focus, masterpiece, best quality, 1girl, white roses, petals, night background, fireflies, light particle, solo, blonde hair, green eyes, standing, pixiv, depth of field, cinematic composition, best lighting, looking up",
+  # "Sam Yang WLOP Artgerm Greg Rutkowski, 8k portrait of beautiful cyborg with brown hair, intricate, elegant, highly detailed, majestic, digital photography, art by artgerm and ruan jia and greg rutkowski surreal painting gold butterfly filigree, broken glass, (masterpiece, sidelighting, finely detailed beautiful eyes: 1.2), hdr, realistic, high definition",
+  "masterpiece, best quality, (1girl), Sam Yang, beautiful detailed eyes, looking at viewer, upper body, pink hair, shy, cat ears, very detailed, high resolution, sharp, sharp image, 4k, 8k,",
+  # "photo of beautiful age 18 girl, pastel hair, freckles sexy, beautiful, close up, young, dslr, 8k, 4k, ultrarealistic, realistic, natural skin, textured skin",
+]
+
+n_prompt: "text, watermark, low quality, medium quality, blurry, censored, wrinkles, deformed, mutated text, watermark, low quality, medium quality, blurry, censored, wrinkles, mutated embedding:BadDream embedding:UnrealisticDream"
+
+# Other Configs
+enable_xformers: true
+enable_compare: true
+draw_text: false
+seed: 109
+device: 0
+split_images: false
