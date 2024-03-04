@@ -1,17 +1,16 @@
 # ___***ResAdapter: Domain Consistent Resolution Adapter for Diffusion Models***___
 
-<a href='https://ip-adapter.github.io'><img src='https://img.shields.io/badge/Project-Page-green'></a> 
+<a href='https://res-adapter.github.io/'><img src='https://img.shields.io/badge/Project-Page-green'></a> 
 <a href='https://arxiv.org/abs/2308.06721'><img src='https://img.shields.io/badge/ Paper-Arxiv-red'></a> 
-<a href='https://huggingface.co/h94/IP-Adapter'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-blue'></a>
+<a href='https://huggingface.co/jiaxiangc/res-adapter'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-blue'></a>
 [![GitHub](https://img.shields.io/github/stars/tencent-ailab/IP-Adapter?style=social)](https://github.com/tencent-ailab/IP-Adapter/)
 
 
-<!-- ![toutu](assets/misc/dreamlike2.png) -->
 
-<div style="display: flex; justify-content: center;">
-  <img src="assets/misc/dreamlike1.png" alt="Image 1" style="width: 50%;">
-  <img src="assets/misc/dreamlike2.png" alt="Image 2" style="width: 50%;">
-</div>
+<p float="left">
+  <img src="./assets/misc/dreamlike2.png" width="100" />
+  <img src="./assets/misc/dreamlike1.png" width="100" /> 
+</p>
 
 
 ---
@@ -51,10 +50,11 @@ pip install -r requirements.txt
 | --- | --- |--- | --- |
 |SDv1.5 | 860M | --- |[Download](https://huggingface.co/runwayml/stable-diffusion-v1-5)|
 |SDXL1.0 |2.6B | --- |[Download](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0) | 
-|ResAdapter-RI| 0.74M | Resolution Interpolation | Download|
-|ResAdapter-XL-RI| 0.55M | Resolution Interpolation | Download|
+|ResAdapter-RI| 0.74M | Resolution Interpolation | [Download](https://huggingface.co/jiaxiangc/res-adapter)|
+|ResAdapter-XL-RI| 0.55M | Resolution Interpolation | [Download](https://huggingface.co/jiaxiangc/res-adapter)|
 
 ### Download Personalized Models
+
 |Models  | Structure Type |Domain Type |Links |
 | --- | --- |--- |--- |
 |RealisticVision|SDv1.5 |Realism | [Download](https://civitai.com/models/4201/realistic-vision-v60-b1)
@@ -79,6 +79,7 @@ We support demos about ControlNet, IP-Adapter, LCM-LoRA.
 
 
 You can download these modules below:
+
 |Modules | Name | Type | Links |
 | --- |--- | --- | --- |
 |ControlNet| lllyasviel/sd-controlnet-canny |SD1.5 | [Download](https://huggingface.co/lllyasviel/sd-controlnet-canny)
