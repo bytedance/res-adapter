@@ -52,13 +52,13 @@ More extended experiments demonstrate that ResAdapter is compatible with other m
 ## Installation
 
 ```bash
-# Step1: enter to res-adapter directory
+# Step1: Enter to res-adapter directory
 cd res-adapter
 
-# Step2: install dependency
+# Step2: Install dependency
 pip install -r requirements.txt
 
-# Step3: download diffusion models, and make the directory structure as follows:
+# Step3: Download diffusion models, and make the directory structure as follows:
 models
 ├── res_adapter
 │   ├── res_adapter-v1.5
@@ -128,11 +128,9 @@ We support demos about ControlNet, IP-Adapter, LCM-LoRA.
 We provide simple scripts for sampling images of resadapter and baseline.
 
 ```bash
-# Step1: choose a task example of config file.
-
-# Step2: fill in "path, width, height and prompt".
-
-# Step3: run the following script.
+# Step1: Choose a task example of config file.
+# Step2: Fill in "path, width, height and prompt".
+# Step3: Run the following script.
 python main.py --config [path.file]
 ```
 
