@@ -44,6 +44,12 @@ Especially, after acquiring a deep understanding of pure resolution priors, ResA
 Comprehensive experiments demonstrate that ResAdapter with only 0.5M can process images with flexible resolutions for arbitrary diffusion models.
 More extended experiments demonstrate that ResAdapter is compatible with other modules (e.g., ControlNet, IP-Adapter and LCM-LoRA) for images across a broad range of resolutions, and can be integrated into other multi-resolution model (e.g., ElasticDiffusion) for efficiently generating higher-resolution images. -->
 
+## TODO
+- [x] Provide resadapter model of resolution interpolation
+- [ ] Support resadapter model of resolution interpolation and extrapolation (More broad resolution range.)
+- [ ] Support resadapter in ComfyUI.
+
+
 ## Release
 - [2024/3/5] 🔥 We release the paper about [ResAdapter](https://arxiv.org/abs/2403.02084) to arxiv.
 - [2024/3/4] 🔥 We release the code and models.
