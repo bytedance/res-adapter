@@ -54,6 +54,39 @@ More extended experiments demonstrate that ResAdapter is compatible with other m
 - [2024/3/5] 🔥 We release the paper about [ResAdapter](https://arxiv.org/abs/2403.02084) to arxiv.
 - [2024/3/4] 🔥 We release the code and models.
 
+## Example
+```python
+# pip install diffusers, transformers, accelerate, safetensors
+
+import os
+import torch
+from diffusers import AutoPipelineForText2Image, DPMSolverMultistepScheduler
+from resadapter.model_loader import load_resadapter_mini
+
+model_path = "lykon-models/dreamshaper-xl-1-0"
+resadapter_path = "models/res_adapter/sdxl-i"
+
+prompt = "cinematic film still, photo of a girl, cyberpunk, neonpunk, headset, city at night, sony fe 12-24mm f/2.8 gm, close up, 32k uhd, wallpaper, analog film grain, SONY headset"
+n_prompt = "ugly, deformed, noisy, blurry, nsfw, low contrast, text, BadDream, 3d, cgi, render, fake, anime, open mouth, big forehead, long neck"
+
+# load baseline pipeline
+pipe = AutoPipelineForText2Image.from_pretrained(model_path, torch_dtype=torch.float16, variant="fp16")
+pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config, use_karras_sigmas=True, algorithm_type="sde-dpmsolver++")
+pipe = pipe.to("cuda")
+
+# inference baseline
+width, height =512, 512 # for sdxl-based model, 512x512 represent resolution interpolation
+image = pipe(prompt, negative_prompt=n_prompt, width=width, height=height, num_inference_steps=25).images[0]  
+image.save("./image_baseline.png")
+
+# load resadapter for baseline pipeline
+pipe = load_resadapter_mini(pipe, resadapter_path)
+
+# inference resadapter
+image = pipe(prompt, negative_prompt=n_prompt, width=width, height=height, num_inference_steps=25).images[0]  
+image.save("./image_resadapter.png")
+```
+
 
 ## Installation
 
