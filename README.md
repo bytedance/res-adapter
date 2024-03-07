@@ -87,6 +87,48 @@ image = pipe(prompt, negative_prompt=n_prompt, width=width, height=height, num_i
 image.save("./image_resadapter.png")
 ```
 
+## Standalone Example
+
+```python
+# pip install diffusers, transformers, accelerate, safetensors, huggingface_hub
+import torch
+from safetensors.torch import load_file
+from diffusers import AutoPipelineForText2Image, DPMSolverMultistepScheduler
+from huggingface_hub import hf_hub_download
+
+pipe = AutoPipelineForText2Image.from_pretrained('Lykon/dreamshaper-xl-lightning', torch_dtype=torch.float16, variant="fp16")
+pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
+device = 'cuda'
+
+pipe.unet.load_state_dict(load_file(
+    hf_hub_download(
+        repo_id="jiaxiangc/res-adapter",
+        subfolder="sdxl-i",
+        filename="resolution_normalization.safetensors"
+    ),
+    device=device
+), strict=False)
+
+pipe.load_lora_weights(
+    hf_hub_download(
+        repo_id="jiaxiangc/res-adapter",
+        subfolder="sdxl-i",
+        filename="resolution_lora.safetensors"
+    ),
+    adapter_name="res_adapter"
+)
+
+pipe.set_adapters(["res_adapter"], adapter_weights=[1.0])
+pipe = pipe.to(device)
+
+prompt = "cinematic film still, photo of a girl, cyberpunk, neonpunk, headset, city at night, sony fe 12-24mm f/2.8 gm, close up, 32k uhd, wallpaper, analog film grain, SONY headset"
+n_prompt = "ugly, deformed, noisy, blurry, nsfw, low contrast, text, BadDream, 3d, cgi, render, fake, anime, open mouth, big forehead, long neck"
+width, height =512, 512
+
+torch.manual_seed(0)
+image = pipe(prompt, negative_prompt=n_prompt, width=width, height=height, num_inference_steps=6).images[0]
+image.save("./image.png")
+```
 
 ## Installation
 
