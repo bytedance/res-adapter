@@ -47,88 +47,61 @@ More extended experiments demonstrate that ResAdapter is compatible with other m
 ## TODO
 - [x] Provide resadapter model of resolution interpolation
 - [ ] Support resadapter model of resolution interpolation and extrapolation (More broad resolution range.)
-- [ ] Support resadapter in ComfyUI.
+- [ ] Supporting resadapter in ComfyUI during mid to late March.
 
 
 ## Release
 - [2024/3/5] 🔥 We release the paper about [ResAdapter](https://arxiv.org/abs/2403.02084) to arxiv.
 - [2024/3/4] 🔥 We release the code and models.
 
-## Example
-```python
-# pip install diffusers, transformers, accelerate, safetensors
-
-import os
-import torch
-from diffusers import AutoPipelineForText2Image, DPMSolverMultistepScheduler
-from resadapter.model_loader import load_resadapter_mini
-
-model_path = "lykon-models/dreamshaper-xl-1-0"
-resadapter_path = "models/res_adapter/sdxl-i"
-
-prompt = "cinematic film still, photo of a girl, cyberpunk, neonpunk, headset, city at night, sony fe 12-24mm f/2.8 gm, close up, 32k uhd, wallpaper, analog film grain, SONY headset"
-n_prompt = "ugly, deformed, noisy, blurry, nsfw, low contrast, text, BadDream, 3d, cgi, render, fake, anime, open mouth, big forehead, long neck"
-
-# load baseline pipeline
-pipe = AutoPipelineForText2Image.from_pretrained(model_path, torch_dtype=torch.float16, variant="fp16")
-pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config, use_karras_sigmas=True, algorithm_type="sde-dpmsolver++")
-pipe = pipe.to("cuda")
-
-# inference baseline
-width, height =512, 512 # for sdxl-based model, 512x512 represent resolution interpolation
-image = pipe(prompt, negative_prompt=n_prompt, width=width, height=height, num_inference_steps=25).images[0]  
-image.save("./image_baseline.png")
-
-# load resadapter for baseline pipeline
-pipe = load_resadapter_mini(pipe, resadapter_path)
-
-# inference resadapter
-image = pipe(prompt, negative_prompt=n_prompt, width=width, height=height, num_inference_steps=25).images[0]  
-image.save("./image_resadapter.png")
-```
 
 ## Standalone Example
-
 ```python
 # pip install diffusers, transformers, accelerate, safetensors, huggingface_hub
 import torch
-from safetensors.torch import load_file
 from diffusers import AutoPipelineForText2Image, DPMSolverMultistepScheduler
 from huggingface_hub import hf_hub_download
 
-pipe = AutoPipelineForText2Image.from_pretrained('Lykon/dreamshaper-xl-lightning', torch_dtype=torch.float16, variant="fp16")
-pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
-device = 'cuda'
-
-pipe.unet.load_state_dict(load_file(
-    hf_hub_download(
-        repo_id="jiaxiangc/res-adapter",
-        subfolder="sdxl-i",
-        filename="resolution_normalization.safetensors"
-    ),
-    device=device
-), strict=False)
-
-pipe.load_lora_weights(
-    hf_hub_download(
-        repo_id="jiaxiangc/res-adapter",
-        subfolder="sdxl-i",
-        filename="resolution_lora.safetensors"
-    ),
-    adapter_name="res_adapter"
-)
-
-pipe.set_adapters(["res_adapter"], adapter_weights=[1.0])
-pipe = pipe.to(device)
-
+width, height = 512, 512    # For sdxl-based model, 512 x 512 represent lower-resolution images.
 prompt = "cinematic film still, photo of a girl, cyberpunk, neonpunk, headset, city at night, sony fe 12-24mm f/2.8 gm, close up, 32k uhd, wallpaper, analog film grain, SONY headset"
 n_prompt = "ugly, deformed, noisy, blurry, nsfw, low contrast, text, BadDream, 3d, cgi, render, fake, anime, open mouth, big forehead, long neck"
-width, height =512, 512
 
-torch.manual_seed(0)
-image = pipe(prompt, negative_prompt=n_prompt, width=width, height=height, num_inference_steps=6).images[0]
-image.save("./image.png")
+# Load baseline pipeline
+pipe = AutoPipelineForText2Image.from_pretrained('Lykon/dreamshaper-xl-1-0', torch_dtype=torch.float16, variant="fp16")
+pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config, use_karras_sigmas=True, algorithm_type="sde-dpmsolver++")
+pipe = pipe.to("cuda")
+
+# Inference baseline
+image = pipe(prompt, negative_prompt=n_prompt, width=width, height=height, num_inference_steps=25).images[0]
+image.save("./image_baseline.png")
+
+# Load resadapter for baseline pipeline
+# For resolution interpolation, we only need to load resolution lora.
+# That means you can directly us readapter in ComfyUI to generate lower-resolution images.
+pipe.load_lora_weights(
+    hf_hub_download(
+      repo_id="jiaxiangc/res-adapter", 
+      subfolder="sdxl-i", 
+      filename="resolution_lora.safetensors",
+    ),
+    adapter_name="res_adapter",
+)
+pipe.set_adapters(["res_adapter"], adapter_weights=[1.0])
+
+# Inference resadapter
+image = pipe(prompt, negative_prompt=n_prompt, width=width, height=height, num_inference_steps=25).images[0]
+image.save("./image_resadapter.png")
 ```
+
+## How to Use in ComfyUI
+
+<strong>We are planing to support resadapter in ComfyUI during mid to late March. Please kindly continue to pay attention..</strong>
+
+<strong>For resolution interpolation (such as sampling 512x512 images for SDXL-based personalized models), however, you can directly load `resolution_lora.safetensors` in ComfyUI.</strong>
+
+
+
+
 
 ## Installation
 
@@ -258,19 +231,21 @@ We compare the **resolution interpolation** results generated by ResAdapter and 
 
 <img src="assets/misc/lcmlora2.png" wdith="80%">
 
-
-
-
-
 **Best Practice**
 - For interpolation (generating images below the training resolution), we recommend setting `adapter_alpha=1.0`. 
 - For extrapolation (generating images above the training resolution), we recommend the following adapter_alpha settings: When the inference resolution is greater than 1.5x the training resolution, we recommend setting `0.2<adapter_alpha<0.6`. When the inference resolution is less than or equal to 1.5x the training resolution, we recommend setting `0.6< adapter_alpha<1.0`.
 - We strongly recommend that you use the prompt corresponding to the personalized model, which helps to enhance the quality of the image.
 
+## Star History
+
+If you find that ResAdapter is helpful for your research and applications, kindly consider giving us a star. We will continue to maintain the repository.
+
+[![Star History Chart](https://api.star-history.com/svg?repos=bytedance/res-adapter&type=Date)](https://star-history.com/#bytedance/res-adapter&Date)
+
+
 
 ## Citation
-If you find ResAdapter useful for your research and applications, please cite using this BibTeX:
-```bibtex
+```
 @article{cheng2024resadapter,
   title={ResAdapter: Domain Consistent Resolution Adapter for Diffusion Models},
   author={Cheng, Jiaxiang and Xie, Pan and Xia, Xin and Li, Jiashi and Wu, Jie and Ren, Yuxi and Li, Huixia and Xiao, Xuefeng and Zheng, Min and Fu, Lean},
