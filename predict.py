@@ -5,7 +5,7 @@ import os
 from typing import Optional
 import subprocess
 import time
-from cog import BasePredictor, Input, Path
+from cog import BasePredictor, Input, Path, BaseModel
 import torch
 from diffusers import AutoPipelineForText2Image, DPMSolverMultistepScheduler
 from huggingface_hub import hf_hub_download
@@ -15,6 +15,11 @@ os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
 
 MODEL_URL = "https://weights.replicate.delivery/default/res-adapter/Lykon/dreamshaper-xl-1-0.tar"
 MODEL_WEIGHTS = "pretrained/Lykon/dreamshaper-xl-1-0"
+
+
+class ModelOutput(BaseModel):
+    without_res_adapter: Optional[Path]
+    with_res_adapter: Path
 
 
 def download_weights(url, dest, extract=True):
@@ -42,15 +47,6 @@ class Predictor(BasePredictor):
             algorithm_type="sde-dpmsolver++",
         )
         self.default_pipe = self.default_pipe.to("cuda")
-        self.default_pipe.load_lora_weights(
-            hf_hub_download(
-                repo_id="jiaxiangc/res-adapter",
-                subfolder=f"{base_model}-i",
-                filename="resolution_lora.safetensors",
-            ),
-            adapter_name="res_adapter",
-        )
-        self.default_pipe.set_adapters(["res_adapter"], adapter_weights=[1.0])
 
     @torch.inference_mode()
     def predict(
@@ -91,9 +87,9 @@ class Predictor(BasePredictor):
         ),
         show_baseline: bool = Input(
             description="Show baseline without res-adapter for comparison.",
-            default=True,
+            default=False,
         ),
-    ) -> Path:
+    ) -> ModelOutput:
         """Run a single prediction on the model"""
         if seed is None:
             seed = int.from_bytes(os.urandom(2), "big")
@@ -102,19 +98,43 @@ class Predictor(BasePredictor):
         generator = torch.Generator("cuda").manual_seed(seed)
 
         if model_name == "Lykon/dreamshaper-xl-1-0":
-            pipe = self.default_pipe
+            self.pipe = self.default_pipe
         else:
-            pipe = AutoPipelineForText2Image.from_pretrained(
-                model_name, torch_dtype=torch.float16, variant="fp16"
-            )
-            pipe.scheduler = DPMSolverMultistepScheduler.from_config(
-                pipe.scheduler.config,
+            try:
+                self.pipe = AutoPipelineForText2Image.from_pretrained(
+                    model_name, torch_dtype=torch.float16, variant="fp16"
+                )
+            except:
+                print("fp16 not available.")
+                self.pipe = AutoPipelineForText2Image.from_pretrained(model_name)
+            self.pipe.scheduler = DPMSolverMultistepScheduler.from_config(
+                self.pipe.scheduler.config,
                 use_karras_sigmas=True,
                 algorithm_type="sde-dpmsolver++",
             )
-            pipe = pipe.to("cuda")
+            self.pipe = self.pipe.to("cuda")
 
-            pipe.load_lora_weights(
+        if show_baseline:
+            if len(self.pipe.get_active_adapters()) > 0:
+                print("Unloading LoRA weights...")
+                self.pipe.unload_lora_weights()
+
+            print("Generating images without res_adapter...")
+            baseline_image = self.pipe(
+                prompt,
+                negative_prompt=negative_prompt,
+                width=width,
+                height=height,
+                guidance_scale=guidance_scale,
+                generator=generator,
+                num_inference_steps=num_inference_steps,
+            ).images[0]
+            baseline_path = "/tmp/baseline.png"
+            baseline_image.save(baseline_path)
+
+        if len(self.pipe.get_active_adapters()) == 0:
+            print("Loading LoRA weights...")
+            self.pipe.load_lora_weights(
                 hf_hub_download(
                     repo_id="jiaxiangc/res-adapter",
                     subfolder=f"{base_model}-i",
@@ -122,9 +142,10 @@ class Predictor(BasePredictor):
                 ),
                 adapter_name="res_adapter",
             )
-            pipe.set_adapters(["res_adapter"], adapter_weights=[1.0])
+            self.pipe.set_adapters(["res_adapter"], adapter_weights=[1.0])
 
-        image = pipe(
+        print("Generating images with res_adapter...")
+        image = self.pipe(
             prompt,
             negative_prompt=negative_prompt,
             width=width,
@@ -136,4 +157,7 @@ class Predictor(BasePredictor):
 
         out_path = "/tmp/output.png"
         image.save(out_path)
-        return Path(out_path)
+        return ModelOutput(
+            without_res_adapter=Path(baseline_path) if show_baseline else None,
+            with_res_adapter=Path(out_path),
+        )
