@@ -7,8 +7,9 @@ import subprocess
 import time
 from cog import BasePredictor, Input, Path, BaseModel
 import torch
-from diffusers import AutoPipelineForText2Image, DPMSolverMultistepScheduler
+from diffusers import AutoPipelineForText2Image, DPMSolverMultistepScheduler, EulerDiscreteScheduler, UNet2DConditionModel, StableDiffusionXLPipeline
 from huggingface_hub import hf_hub_download
+from safetensors.torch import load_file
 
 
 os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
@@ -16,6 +17,8 @@ os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
 MODEL_URL = "https://weights.replicate.delivery/default/res-adapter/Lykon/dreamshaper-xl-1-0.tar"
 MODEL_WEIGHTS = "pretrained/Lykon/dreamshaper-xl-1-0"
 
+# For SDXL, SDXL-Lightning, dreamshaper-xl-1-0,
+# For SDv1.5, dreamlike-diffusion-1.0
 
 class ModelOutput(BaseModel):
     without_res_adapter: Optional[Path]
@@ -58,7 +61,8 @@ class Predictor(BasePredictor):
         ),
         model_name: str = Input(
             description="Name of a stable diffusion model, should have either sd1.5 or sdxl architecture.",
-            default="Lykon/dreamshaper-xl-1-0",
+            default="ByteDance/SDXL-Lightning",
+            choice=["Lykon/dreamshaper-xl-1-0", "ByteDance/SDXL-Lightning", "dreamlike-art/dreamlike-diffusion-1.0"]
         ),
         prompt: str = Input(
             description="Input prompt",
@@ -70,24 +74,24 @@ class Predictor(BasePredictor):
         ),
         width: int = Input(
             description="Width of output image",
-            default=1024,
+            default=512,
         ),
         height: int = Input(
             description="Height of output image",
-            default=1024,
+            default=512,
         ),
         num_inference_steps: int = Input(
-            description="Number of denoising steps", default=25
+            description="Number of denoising steps", default=4
         ),
         guidance_scale: float = Input(
-            description="Scale for classifier-free guidance", ge=1, le=20, default=7.5
+            description="Scale for classifier-free guidance", ge=0, le=20, default=0
         ),
         seed: int = Input(
             description="Random seed. Leave blank to randomize the seed", default=None
         ),
         show_baseline: bool = Input(
             description="Show baseline without res-adapter for comparison.",
-            default=False,
+            default=True,
         ),
     ) -> ModelOutput:
         """Run a single prediction on the model"""
@@ -99,6 +103,19 @@ class Predictor(BasePredictor):
 
         if model_name == "Lykon/dreamshaper-xl-1-0":
             self.pipe = self.default_pipe
+
+        elif model_name == "ByteDance/SDXL-Lightning":
+            self.pipe = self.default_pipe
+            repo = "ByteDance/SDXL-Lightning"
+            ckpt = "sdxl_lightning_4step_unet.safetensors"  # Use the correct ckpt for your step setting!
+
+            # Load SDXL-Lightning to UNet
+            unet = self.default_pipe.unet
+            unet.load_state_dict(load_file(hf_hub_download(repo, ckpt), device="cuda"))
+
+            # Change UNet to pipeline
+            self.pipe.unet = unet
+            self.pipe.scheduler = EulerDiscreteScheduler.from_config(self.pipe.scheduler.config, timestep_spacing="trailing")
         else:
             try:
                 self.pipe = AutoPipelineForText2Image.from_pretrained(
@@ -107,6 +124,7 @@ class Predictor(BasePredictor):
             except:
                 print("fp16 not available.")
                 self.pipe = AutoPipelineForText2Image.from_pretrained(model_name)
+
             self.pipe.scheduler = DPMSolverMultistepScheduler.from_config(
                 self.pipe.scheduler.config,
                 use_karras_sigmas=True,
@@ -133,16 +151,36 @@ class Predictor(BasePredictor):
             baseline_image.save(baseline_path)
 
         if len(self.pipe.get_active_adapters()) == 0:
-            print("Loading LoRA weights...")
-            self.pipe.load_lora_weights(
-                hf_hub_download(
-                    repo_id="jiaxiangc/res-adapter",
-                    subfolder=f"{base_model}-i",
-                    filename="resolution_lora.safetensors",
-                ),
-                adapter_name="res_adapter",
-            )
-            self.pipe.set_adapters(["res_adapter"], adapter_weights=[1.0])
+            if base_model == "sd1.5":
+                print("Loading Resolution LoRA weights...")
+                self.pipe.load_lora_weights(
+                    hf_hub_download(
+                        repo_id="jiaxiangc/res-adapter",
+                        subfolder=f"sd1.5",
+                        filename="resolution_lora.safetensors",
+                    ),
+                    adapter_name="res_adapter",
+                )
+                self.pipe.set_adapters(["res_adapter"], adapter_weights=[1.0])
+                print("Load Resolution Norm weights")
+                self.pipe.unet.load_state_dict(load_file(
+                    hf_hub_download(
+                        repo_id="jiaxiangc/res-adapter",
+                        subfolder="sd1.5",
+                        filename="resolution_normalization.safetensors"
+                    ),
+                ), strict=False)
+            elif base_model == "sdxl":
+                print("Loading Resolution LoRA weights...")
+                self.pipe.load_lora_weights(
+                    hf_hub_download(
+                        repo_id="jiaxiangc/res-adapter",
+                        subfolder=f"sdxl-i",
+                        filename="resolution_lora.safetensors",
+                    ),
+                    adapter_name="res_adapter",
+                )
+                self.pipe.set_adapters(["res_adapter"], adapter_weights=[1.0])
 
         print("Generating images with res_adapter...")
         image = self.pipe(
