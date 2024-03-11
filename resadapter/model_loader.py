@@ -21,13 +21,21 @@ def load_resadapter(pipeline, config):
     NORM_WEIGHTS_NAME = "resolution_normalization.safetensors"
     LORA_WEIGHTS_NAME = "resolution_lora.safetensors"
 
+    NORM_WEIGHTS_NAME = "diffit_diffusion_pytorch_model.safetensors"
+    LORA_WEIGHTS_NAME = "pytorch_lora_weights_kohya.safetensors"
+
+
     # TODO: We open the following codes, after providing weights of resolution extrapolation.
     # Load resolution normalization
-    # norm_state_dict = {}
-    # with safe_open(os.path.join(config.res_adapter_model, NORM_WEIGHTS_NAME), framework="pt", device="cpu") as f:
-    #     for key in f.keys():
-    #         norm_state_dict[key] = f.get_tensor(key)
-    # m, u = pipeline.unet.load_state_dict(norm_state_dict, strict=False)
+    try:
+        norm_state_dict = {}
+        with safe_open(os.path.join(config.res_adapter_model, NORM_WEIGHTS_NAME), framework="pt", device="cpu") as f:
+            for key in f.keys():
+                norm_state_dict[key] = f.get_tensor(key)
+        m, u = pipeline.unet.load_state_dict(norm_state_dict, strict=False)
+        print(f"Load normalization safetensors from {os.path.join(config.res_adapter_model, NORM_WEIGHTS_NAME)}.")
+    except:
+        print("There is no normalization safetensors, we can only load lora safetensors for resolution interpolation.")
     
     # Load resolution lora
     pipeline.load_lora_weights(os.path.join(config.res_adapter_model, LORA_WEIGHTS_NAME), adapter_name="res_adapter")

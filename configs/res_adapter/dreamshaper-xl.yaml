@@ -2,14 +2,15 @@ task: "t2i"
 experiment_name: ""
 
 # Model Configs
-personalized_model: "/path/to/model"
+personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/dreamshaper-xl-1-0"
 model_type: "sdxl"
-res_adapter_model: "/path/to/model"
+res_adapter_model: "/mnt/bn/automl-aigc/chengjiaxiang/outputs/aigc/train/exp057_sdxl_resnet_mix256-1536-2024-03-08T13-22-22/checkpoint-20000"
 res_adapter_alpha: 1.0
 
+
 # Inference Configs
-width: 512
-height: 512
+width: 900
+height: 1104
 scale_ratio: null
 num_inference_steps: 30
 guidance_scale: 7.5

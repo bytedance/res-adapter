@@ -14,7 +14,7 @@ width: 256
 height: 256
 num_inference_steps: 4
 guidance_scale: 1
-num_images_per_prompt: 2
+num_images_per_prompt: 8
 
 prompts: [
   "cutie-pie cat wearing mittens, contrapposto, strong polar filter, evening light, hyper realistic <lora:zhibi:0.75>, zhibi, zdyna_pose, foreshortening, from below,  nicely detailed, portrait by john Wilhelm, <lora:!action-sdxl-V0.5:0.75> <lora:Gerald_Brom_XL_-_Dark_Fantasy_Art:1> art by Gerald Brom",

@@ -86,6 +86,7 @@ def load_text2image_pipeline(config):
         use_karras_sigmas=True,
         algorithm_type="sde-dpmsolver++",
     )
+    # pipeline.scheduler = DDIMScheduler.from_config(pipeline.scheduler.config)
 
     return pipeline
 
@@ -196,15 +197,15 @@ def load_controlnet_pipeline(config):
 def load_ip_adapter_pipeline(config):
     if config.sub_task == "image_variation":
         pipeline = AutoPipelineForText2Image.from_pretrained(
-            config.personalized_model, torch_dtype=torch.float16
+            config.personalized_model, torch_dtype=torch.float16, safety_checker=None,
         )
     if config.sub_task == "image_to_image":
         pipeline = AutoPipelineForImage2Image.from_pretrained(
-            config.personalized_model, torch_dtype=torch.float16
+            config.personalized_model, torch_dtype=torch.float16, safety_checker=None,
         )
     if config.sub_task == "inpaint":
         pipeline = AutoPipelineForInpainting.from_pretrained(
-            config.personalized_model, torch_dtype=torch.float16
+            config.personalized_model, torch_dtype=torch.float16, safety_checker=None,
         )
     if config.model_type == "sd1.5":
         if config.ip_adapter_weight_name == "general":

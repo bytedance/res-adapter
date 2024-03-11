@@ -1,0 +1,33 @@
+task: "t2i"
+experiment_name: "animeartxl-resnet-10k"
+
+# Model Configs
+personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/civitai/animeArtDiffusionXL_alpha3.safetensors"
+model_type: "sdxl"
+res_adapter_model: "/mnt/bn/automl-aigc/chengjiaxiang/outputs/aigc/train/exp057_sdxl_resnet_mix256-1536-2024-03-08T13-22-22/checkpoint-100000"
+resolution_extrapolation: true
+res_adapter_alpha: 1.0
+
+# Inference Configs
+width: 512
+height: 512
+scale_ratio: null
+num_inference_steps: 20
+guidance_scale: 7.5
+num_images_per_prompt: 2
+
+prompts: [
+  "face focus, masterpiece, best quality, 1girl, white roses, petals, night background, fireflies, light particle, solo, blonde hair, green eyes, standing, pixiv, depth of field, cinematic composition, best lighting, looking up",
+  "masterpiece, best quality, (1girl), Sam Yang, beautiful detailed eyes, looking at viewer, upper body, pink hair, shy, cat ears, very detailed, high resolution, sharp, sharp image, 4k, 8k,",
+  "photo of beautiful age 18 girl, pastel hair, freckles sexy, beautiful, close up, young, dslr, 8k, 4k, ultrarealistic, realistic, natural skin, textured skin",
+]
+
+n_prompt: "text, watermark, low quality, medium quality, blurry, censored, wrinkles, deformed, mutated text, watermark, low quality, medium quality, blurry, censored, wrinkles, mutated embedding:BadDream embedding:UnrealisticDream"
+
+# Other Configs
+enable_xformers: true
+enable_compare: true
+draw_text: true
+seed: 42
+device: 1
+split_images: false
