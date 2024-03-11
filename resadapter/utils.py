@@ -22,9 +22,9 @@ def draw_text_on_images(image, text):
     max_length = max(image.shape[-2], image.shape[-1])
 
     if max_length >= 512:
-        font_scale = 0.1
+        font_scale = 0.08
     else:
-        font_scale = 0.2
+        font_scale = 0.1
     font_size = int(font_scale * max_length)
     font = ImageFont.truetype("assets/Chalkduster.ttf", size=font_size)
 

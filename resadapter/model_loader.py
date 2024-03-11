@@ -21,11 +21,6 @@ def load_resadapter(pipeline, config):
     NORM_WEIGHTS_NAME = "resolution_normalization.safetensors"
     LORA_WEIGHTS_NAME = "resolution_lora.safetensors"
 
-    NORM_WEIGHTS_NAME = "diffit_diffusion_pytorch_model.safetensors"
-    LORA_WEIGHTS_NAME = "pytorch_lora_weights_kohya.safetensors"
-
-
-    # TODO: We open the following codes, after providing weights of resolution extrapolation.
     # Load resolution normalization
     try:
         norm_state_dict = {}

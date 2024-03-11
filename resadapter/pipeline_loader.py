@@ -86,7 +86,6 @@ def load_text2image_pipeline(config):
         use_karras_sigmas=True,
         algorithm_type="sde-dpmsolver++",
     )
-    # pipeline.scheduler = DDIMScheduler.from_config(pipeline.scheduler.config)
 
     return pipeline
 
