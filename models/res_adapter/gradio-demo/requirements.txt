@@ -1,0 +1,6 @@
+gradio==4.8.0
+diffusers
+transformers
+accelerate
+safetensors
+huggingface_hub
