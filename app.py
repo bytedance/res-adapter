@@ -7,7 +7,7 @@ import gradio as gr
 import numpy as np
 import PIL.Image
 
-import spaces
+# import spaces
 import torch
 from diffusers import (
     StableDiffusionXLPipeline,
@@ -35,7 +35,8 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 
-base = "stabilityai/stable-diffusion-xl-base-1.0"
+# base = "stabilityai/stable-diffusion-xl-base-1.0"
+base = "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/dreamshaper-xl-1-0"
 repo = "ByteDance/SDXL-Lightning"
 ckpt = "sdxl_lightning_4step_unet.safetensors"  # Use the correct ckpt for your step setting!
 
@@ -66,7 +67,7 @@ def randomize_seed_fn(seed: int, randomize_seed: bool) -> int:
     return seed
 
 
-@spaces.GPU(enable_queue=True)
+# @spaces.GPU(enable_queue=True)
 def generate(
     prompt: str,
     negative_prompt: str = "",
@@ -128,6 +129,7 @@ def generate(
 
 examples = [
     "A girl smiling",
+    "A boy smiling",
     "A realistic photograph of an astronaut in a jungle, cold color palette, detailed, 8k",
 
 ]
@@ -195,14 +197,14 @@ with gr.Blocks(css="footer{display:none !important}", theme=theme) as demo:
                 minimum=256,
                 maximum=MAX_IMAGE_SIZE,
                 step=32,
-                value=1024,
+                value=512,
             )
             height = gr.Slider(
                 label="Height",
                 minimum=256,
                 maximum=MAX_IMAGE_SIZE,
                 step=32,
-                value=1024,
+                value=512,
             )
         with gr.Row():
             guidance_scale_base = gr.Slider(
