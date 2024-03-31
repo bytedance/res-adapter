@@ -18,8 +18,9 @@ from safetensors import safe_open
 
 # Load resadapter for scripts
 def load_resadapter(pipeline, config):
-    NORM_WEIGHTS_NAME = "resolution_normalization.safetensors"
-    LORA_WEIGHTS_NAME = "resolution_lora.safetensors"
+
+    NORM_WEIGHTS_NAME = "diffusion_pytorch_model.safetensors"
+    LORA_WEIGHTS_NAME = "pytorch_lora_weights.safetensors"
 
     # Load resolution normalization
     try:

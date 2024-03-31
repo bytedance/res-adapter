@@ -38,17 +38,18 @@ from diffusers.schedulers import (
     UniPCMultistepScheduler,
     EulerAncestralDiscreteScheduler,
     DDIMScheduler,
+    EulerDiscreteScheduler,
 )
 
 
 def load_text2image_pipeline(config):
-    if config.personalized_model.endswith(
+    if config.diffusion_model.endswith(
         ".safetensors"
-    ) or config.personalized_model.endswith(".ckpt"):
-        print(f"Load pipeline from civitai: {config.personalized_model}")
+    ) or config.diffusion_model.endswith(".ckpt"):
+        print(f"Load pipeline from civitai: {config.diffusion_model}")
         if config.model_type == "sd1.5":
             pipeline = StableDiffusionPipeline.from_single_file(
-                config.personalized_model,
+                config.diffusion_model,
                 torch_dtype=torch.float16,
                 variant="fp16",
                 load_safety_checker=False,
@@ -56,17 +57,17 @@ def load_text2image_pipeline(config):
             )
         else:
             pipeline = StableDiffusionXLPipeline.from_single_file(
-                config.personalized_model,
+                config.diffusion_model,
                 torch_dtype=torch.float16,
                 variant="fp16",
                 load_safety_checker=False,
                 requires_safety_checker=False,
             )
     else:
-        print(f"Load pipeline from huggingface: {config.personalized_model}")
+        print(f"Load pipeline from huggingface: {config.diffusion_model}")
         if config.model_type == "sd1.5":
             pipeline = StableDiffusionPipeline.from_pretrained(
-                config.personalized_model,
+                config.diffusion_model,
                 torch_dtype=torch.float16,
                 variant="fp16",
                 load_safety_checker=False,
@@ -74,7 +75,7 @@ def load_text2image_pipeline(config):
             )
         else:
             pipeline = StableDiffusionXLPipeline.from_pretrained(
-                config.personalized_model,
+                config.diffusion_model,
                 torch_dtype=torch.float16,
                 variant="fp16",
                 load_safety_checker=False,
@@ -87,17 +88,21 @@ def load_text2image_pipeline(config):
         algorithm_type="sde-dpmsolver++",
     )
 
+    # if config.timestep_spacing == "trailing":
+    #     print("Detect timestep_spacing == trailing")
+    #     pipeline.scheduler = EulerDiscreteScheduler.from_config(pipeline.scheduler.config, timestep_spacing="trailing")
+
     return pipeline
 
 
 def load_text2image_lcm_lora_pipeline(config):
-    if config.personalized_model.endswith(
+    if config.diffusion_model.endswith(
         ".safetensors"
-    ) or config.personalized_model.endswith(".ckpt"):
-        print(f"Load pipeline from civitai: {config.personalized_model}")
+    ) or config.diffusion_model.endswith(".ckpt"):
+        print(f"Load pipeline from civitai: {config.diffusion_model}")
         if config.model_type == "sd1.5":
             pipeline = StableDiffusionPipeline.from_single_file(
-                config.personalized_model,
+                config.diffusion_model,
                 torch_dtype=torch.float16,
                 variant="fp16",
                 load_safety_checker=False,
@@ -105,17 +110,17 @@ def load_text2image_lcm_lora_pipeline(config):
             )
         else:
             pipeline = StableDiffusionXLPipeline.from_single_file(
-                config.personalized_model,
+                config.diffusion_model,
                 torch_dtype=torch.float16,
                 variant="fp16",
                 load_safety_checker=False,
                 requires_safety_checker=False,
             )
     else:
-        print(f"Load pipeline from huggingface: {config.personalized_model}")
+        print(f"Load pipeline from huggingface: {config.diffusion_model}")
         if config.model_type == "sd1.5":
             pipeline = StableDiffusionPipeline.from_pretrained(
-                config.personalized_model,
+                config.diffusion_model,
                 torch_dtype=torch.float16,
                 variant="fp16",
                 load_safety_checker=False,
@@ -123,7 +128,7 @@ def load_text2image_lcm_lora_pipeline(config):
             )
         else:
             pipeline = StableDiffusionXLPipeline.from_pretrained(
-                config.personalized_model,
+                config.diffusion_model,
                 torch_dtype=torch.float16,
                 variant="fp16",
                 load_safety_checker=False,
@@ -144,43 +149,43 @@ def load_controlnet_pipeline(config):
 
     if config.model_type == "sd1.5":
         if config.sub_task == "image_to_image":
-            if config.personalized_model.endswith(".safetensors") or config.personalized_model.endswith(".ckpt"):
+            if config.diffusion_model.endswith(".safetensors") or config.diffusion_model.endswith(".ckpt"):
                 pipeline = StableDiffusionControlNetImg2ImgPipeline.from_single_file(
-                    config.personalized_model,
+                    config.diffusion_model,
                     controlnet=controlnet,
                     torch_dtype=torch.float16,
                 )
             else:
                 pipeline = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
-                    config.personalized_model,
+                    config.diffusion_model,
                     controlnet=controlnet,
                     torch_dtype=torch.float16,
                 )
         if config.sub_task == "text_to_image":
             pipeline = StableDiffusionControlNetPipeline.from_pretrained(
-                config.personalized_model,
+                config.diffusion_model,
                 controlnet=controlnet,
                 torch_dtype=torch.float16,
                 use_safetensors=True,
             )
     elif config.model_type == "sdxl":
         if config.sub_task == "image_to_image":
-            if config.personalized_model.endswith(".safetensors") or config.personalized_model.endswith(".ckpt"):
+            if config.diffusion_model.endswith(".safetensors") or config.diffusion_model.endswith(".ckpt"):
                 pipeline = StableDiffusionXLControlNetImg2ImgPipeline.from_single_file(
-                    config.personalized_model,
+                    config.diffusion_model,
                     controlnet=controlnet,
                     torch_dtype=torch.float16,
                 )
             else:
                 pipeline = StableDiffusionXLControlNetImg2ImgPipeline.from_pretrained(
-                    config.personalized_model,
+                    config.diffusion_model,
                     controlnet=controlnet,
                     torch_dtype=torch.float16,
                 )
 
         if config.sub_task == "text_to_image":
             pipeline = StableDiffusionXLControlNetPipeline.from_pretrained(
-                config.personalized_model,
+                config.diffusion_model,
                 controlnet=controlnet,
                 torch_dtype=torch.float16,
                 use_safetensors=True,
@@ -188,7 +193,7 @@ def load_controlnet_pipeline(config):
 
     pipeline.scheduler = UniPCMultistepScheduler.from_config(pipeline.scheduler.config)
     print(f"Load controlnet form {config.controlnet_model}")
-    print(f"Load model form {config.personalized_model}")
+    print(f"Load model form {config.diffusion_model}")
 
     return pipeline
 
@@ -196,15 +201,15 @@ def load_controlnet_pipeline(config):
 def load_ip_adapter_pipeline(config):
     if config.sub_task == "image_variation":
         pipeline = AutoPipelineForText2Image.from_pretrained(
-            config.personalized_model, torch_dtype=torch.float16, safety_checker=None,
+            config.diffusion_model, torch_dtype=torch.float16, safety_checker=None,
         )
     if config.sub_task == "image_to_image":
         pipeline = AutoPipelineForImage2Image.from_pretrained(
-            config.personalized_model, torch_dtype=torch.float16, safety_checker=None,
+            config.diffusion_model, torch_dtype=torch.float16, safety_checker=None,
         )
     if config.sub_task == "inpaint":
         pipeline = AutoPipelineForInpainting.from_pretrained(
-            config.personalized_model, torch_dtype=torch.float16, safety_checker=None,
+            config.diffusion_model, torch_dtype=torch.float16, safety_checker=None,
         )
     if config.model_type == "sd1.5":
         if config.ip_adapter_weight_name == "general":
