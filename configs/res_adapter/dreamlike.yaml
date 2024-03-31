@@ -2,25 +2,22 @@ task: "t2i"
 experiment_name: ""
 
 # Model Configs
-# personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/civitai/dreamlikeDiffusion10_10.ckpt"
-personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/stable-diffusion-v1-5"
+diffusion_model: "/path/to/dreamlike-diffusion-1.0"
 model_type: "sd1.5"
-# res_adapter_model: "/mnt/bn/automl-aigc/chengjiaxiang/outputs/aigc/train/exp056_sdv15_resnet_mix128-1024-2024-03-08T13-22-52/checkpoint-200000"
-res_adapter_model: "models/res_adapter/sd1.5-i"
+res_adapter_model: "models/res_adapter/resadapter_v1_sd1.5"
 res_adapter_alpha: 1.0
 
 # Inference Configs
-width: 384
-height: 384
+width: 960
+height: 1104
 num_inference_steps: 25
 guidance_scale: 7.5
-num_images_per_prompt: 4
+num_images_per_prompt: 2
 
 prompts: [
-  # "beautiful age 18 girl, (anime screencap), blue hair, freckles, sexy, beautiful,  dslr, 8k, 4k, natural skin, textured skin, pixiv, depth of field, cinematic compotision, best lighting",
+  "beautiful age 18 girl, (anime screencap), blue hair, freckles, sexy, beautiful,  dslr, 8k, 4k, natural skin, textured skin, pixiv, depth of field, cinematic compotision, best lighting",
   "Pictures of you, beautiful face, youthful appearance, ultra focus, face iluminated, face detailed, ultra focus, dreamlike images, pixel perfect precision, ultra realistic, vibrant, ultra focus, face ilumined, face detailed, 8k resolution, watercolor, detailed colors, ultra focus, 8k resolution, watercolor, razumov style. art by Carne Griffiths, Frank Frazetta, sf, intricate artwork masterpiece, ominous, golden ratio, in the oil painting style reminiscent of Konstantin Razumov's work, yet interspersed with the layered paper illusion effect characteristic of Eiko Ojala, Reimagined splashes of ink in the digital art style, evoking at once impressions of Alberto Seveso's signature pieces, model standing confidently at the center, trending on cgsociety, intricate, epic, trending on artstation, by artgerm, h. r. giger and beksinski, highly detailed, vibrant, production cinematic character render, ultra high quality model, sf, intricate artwork masterpiece, ominous, matte painting movie poster, golden ratio, trending on cgsociety, intricate, epic, trending on artstation, by artgerm, h. r. giger and beksinski, highly detailed, vibrant",
   "Award-winning photo of a mystical fox girl (fox:1.3) in a serene forest clearing,(sunlight:1.2) filtering through the trees,ethereal,enchanting,vibrant orange fur,piercing (amber:1.4) eyes,delicate floral crown,(flowing:1.1) gown,surrounded by a gentle breeze,(whispering:1.2) leaves,magical atmosphere,captured by renowned photographer (Emily Thompson:1.2) using a Nikon D850,creating a dreamlike and captivating image",
-  # "dreamlikeart a painting of illustration of Goku wearing a skirt cinematic lighting, wide shot, 8K, trending on artstation in the style of Greg Rutkowski",
 ]
 
 n_prompt: "[NSFW, poor bad amateur assignment cut out ugly]"
@@ -28,7 +25,7 @@ n_prompt: "[NSFW, poor bad amateur assignment cut out ugly]"
 # Other Configs
 enable_xformers: true
 enable_compare: true
-draw_text: false
+draw_text: true
 seed: 43
-device: 2
+device: 0
 split_images: false

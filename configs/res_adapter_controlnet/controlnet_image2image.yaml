@@ -4,10 +4,10 @@ experiment_name: ""
 
 
 # Model Configs
-personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/stable-diffusion-v1-5"
+diffusion_model: "/path/to/stable-diffusion-v1-5"
 model_type: "sd1.5"
-controlnet_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/control_v11p_sd15_canny"
-res_adapter_model: "/mnt/bn/automl-aigc/chengjiaxiang/outputs/aigc/train/exp056_sdv15_resnet_mix128-1024-2024-03-08T13-22-52/checkpoint-50000"
+controlnet_model: "/path/to/control_v11p_sd15_canny"
+res_adapter_model: "models/res_adapter/resadapter_v1_sd1.5"
 res_adapter_alpha: 1.0
 
 
@@ -22,12 +22,10 @@ num_images_per_prompt: 8
 
 source_images: [
   "assets/controlnet/bird.png",
-  # "assets/controlnet/dog2.png",
 ]
 
 prompts: [
   "bird",
-  # "cute dog",
 ]
 
 n_prompt: "lowres, bad anatomy, worst quality, low quality"
@@ -36,7 +34,7 @@ n_prompt: "lowres, bad anatomy, worst quality, low quality"
 # Other Configs
 enable_xformers: true
 enable_compare: true
-draw_text: false
+draw_text: true
 seed: 42
 device: 0
-split_images: true
+split_images: false

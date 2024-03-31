@@ -2,11 +2,11 @@ task: "t2i_accelerate"
 experiment_name: ""
 
 # Model Configs
-personalized_model: "/path/to/model"
+diffusion_model: "/path/to/cartoon3dxl"
 model_type: "sdxl"
-res_adapter_model: "/path/to/model"
+res_adapter_model: "models/res_adapter/resadapter_v1_sdxl"
 res_adapter_alpha: 1.0
-lcm_lora_path: "/path/to/model"
+lcm_lora_path: "/path/to/lcm-sdxl-lora"
 lcm_lora_alpha: 1.0
 
 # Inference Configs

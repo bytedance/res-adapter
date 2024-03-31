@@ -4,10 +4,10 @@ experiment_name: ""
 
 
 # Model Configs
-personalized_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/stable-diffusion-xl-base-1.0"
+diffusion_model: "/path/to/stable-diffusion-xl-base-1.0"
 model_type: "sdxl"
-controlnet_model: "/mnt/bn/automl-aigc/chengjiaxiang/models/diffusers/controlnet-canny-sdxl-1.0"
-res_adapter_model: "/mnt/bn/automl-aigc/chengjiaxiang/python/res-adapter/models/res_adapter/sdxl-i"
+controlnet_model: "/path/to/controlnet-canny-sdxl-1.0"
+res_adapter_model: "models/res_adapter/resadapter_v1_sdxl"
 res_adapter_alpha: 1.0
 
 
@@ -22,12 +22,10 @@ num_images_per_prompt: 8
 
 source_images: [
   "assets/controlnet/man.png",
-  # "assets/controlnet/old.png",
 ]
 
 prompts: [
   "man",
-  # "old man",
 ]
 
 n_prompt: "lowres, bad anatomy, worst quality, low quality"

@@ -3,7 +3,7 @@ sub_task: "image_variation"
 experiment_name: ""
 
 # Model Configs
-personalized_model: "/path/to/model"
+diffusion_model: "/path/to/model"
 model_type: "sd1.5"
 ip_adapter_model: "/path/to/model"
 ip_adapter_weight_name: "face"
