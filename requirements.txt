@@ -7,3 +7,4 @@ omegaconf
 tqdm
 numpy
 safetensors
+gradio==4.8.0
