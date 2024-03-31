@@ -185,6 +185,7 @@ Chenxi](https://github.com/chenxwh))
 - [blepping/ComfyUI-ApplyResAdapterUnet](https://github.com/blepping/ComfyUI-ApplyResAdapterUnet) by ([@
 blepping](https://github.com/blepping))
 
+https://github.com/jiaxiangc/ComfyUI-ResAdapter/assets/162297627/adc6ec6d-bc43-4ecc-9d3a-2b3c31aeef6c
 
 ## Local Gradio Demo
 
