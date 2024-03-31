@@ -116,11 +116,6 @@ If you want generate images in our inference script, you should download [relate
 python main.py --config /path/to/file
 ```
 
-<!-- ### 0️⃣ Best Practice
-😄 For better image generation, we provide two advice:
-- For text to image tasks, please use personalized models instead of base models.
-- For other tasks, use base models. -->
-
 ### ResAdapter with Personalized Models for Text to Image
 
 <div align=center>
@@ -177,6 +172,19 @@ Comparison examples (512x512) between resadapter and [dreamshaper-xl-1.0](https:
 
 
 </div>
+
+## Community Resource
+
+### Gradio
+- Replicate website: [bytedance/res-adapter](https://replicate.com/bytedance/res-adapter) by ([@
+Chenxi](https://github.com/chenxwh))
+- Huggingface space: [ameerazam08/Res-Adapter-GPU-Demo](https://huggingface.co/spaces/ameerazam08/Res-Adapter-GPU-Demo) by ([@Ameer Azam](https://github.com/AMEERAZAM08))
+
+### ComfyUI
+- [jiaxiangc/ComfyUI-ResAdapter](https://github.com/jiaxiangc/ComfyUI-ResAdapter) (official comfyui node)
+- [blepping/ComfyUI-ApplyResAdapterUnet](https://github.com/blepping/ComfyUI-ApplyResAdapterUnet) by ([@
+blepping](https://github.com/blepping))
+
 
 ## Local Gradio Demo
 
