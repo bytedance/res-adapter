@@ -93,12 +93,12 @@ We have released all resadapter weights, you can download resadapter models from
 
 |Models  | Parameters | Resolution Range | Ratio Range | Links |
 | --- | --- |--- | --- | --- |
-|resadapter_v1_sd1.5| 0.9M | 128 <= x <= 1024 | 0.25 <= r <= 4 | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sd1.5)|
-|resadapter_v1_sd1.5_extrapolation| 0.9M | 512 <= x <= 1024 | 0.25 <= r <= 4  | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sd1.5_extrapolation)|
-|resadapter_v1_sd1.5_interpolation| 0.8M | 128 <= x <= 512 | 0.25 <= r <= 4  | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sd1.5_interpolation)|
-|resadapter_v1_sdxl| 0.5M | 256 <= x <= 1536 | 0.25 <= r <= 4  | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sdxl) |
-|resadapter_v1_sdxl_extrapolation| 0.5M | 1024 <= x <= 1536 | 0.25 <= r <= 4  | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sdxl_extrapolation) |
-|resadapter_v1_sdxl_interpolation| 0.4M | 256 <= x <= 1024 | 0.25 <= r <= 4  | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sdxl_interpolation) |
+|resadapter_v1_sd1.5| 0.9M | 128 <= x <= 1024 | 0.5 <= r <= 2 | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sd1.5)|
+|resadapter_v1_sd1.5_extrapolation| 0.9M | 512 <= x <= 1024 | 0.5 <= r <= 2  | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sd1.5_extrapolation)|
+|resadapter_v1_sd1.5_interpolation| 0.8M | 128 <= x <= 512 | 0.5 <= r <= 2  | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sd1.5_interpolation)|
+|resadapter_v1_sdxl| 0.5M | 256 <= x <= 1536 | 0.5 <= r <= 2  | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sdxl) |
+|resadapter_v1_sdxl_extrapolation| 0.5M | 1024 <= x <= 1536 | 0.5 <= r <= 2  | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sdxl_extrapolation) |
+|resadapter_v1_sdxl_interpolation| 0.4M | 256 <= x <= 1024 | 0.5 <= r <= 2  | [Download](https://huggingface.co/jiaxiangc/res-adapter/tree/main/resadapter_v1_sdxl_interpolation) |
 
 Hint1: We update the resadapter name format according to [controlnet](https://github.com/lllyasviel/ControlNet-v1-1-nightly).
 
