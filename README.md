@@ -110,7 +110,7 @@ Hint4: Here is an [installation guidance](models/README.md) for preparing enviro
 
 ## Inference
 
-If you want generate images in our inference script, you should download [related models](models/README.md) and fill in [configs](configs). Then you can directly run this script.
+If you want generate images in our inference script, you should install  library and download related models according to [installation guidance](models/README.md). After filling in [example configs](configs), you can directly run this script.
 
 ```bash
 python main.py --config /path/to/file
@@ -181,11 +181,12 @@ Chenxi](https://github.com/chenxwh))
 - Huggingface space: [ameerazam08/Res-Adapter-GPU-Demo](https://huggingface.co/spaces/ameerazam08/Res-Adapter-GPU-Demo) by ([@Ameer Azam](https://github.com/AMEERAZAM08))
 
 ### ComfyUI
-- [jiaxiangc/ComfyUI-ResAdapter](https://github.com/jiaxiangc/ComfyUI-ResAdapter) (official comfyui node)
 - [blepping/ComfyUI-ApplyResAdapterUnet](https://github.com/blepping/ComfyUI-ApplyResAdapterUnet) by ([@
 blepping](https://github.com/blepping))
+- [jiaxiangc/ComfyUI-ResAdapter](https://github.com/jiaxiangc/ComfyUI-ResAdapter) (official comfyui node)
 
-An example about ComfyUI-ResAdapter.
+An text-to image example about ComfyUI-ResAdapter. More examples about lcm-lora, controlnet and ipadapter can be found in [ComfyUI-ResAdapter](https://github.com/jiaxiangc/ComfyUI-ResAdapter/tree/main).
+
 https://github.com/jiaxiangc/ComfyUI-ResAdapter/assets/162297627/82453931-23de-4f72-8a9c-1053c4c8d81a
 
 ## Local Gradio Demo
@@ -198,21 +199,23 @@ python app.py
 
 ## Usage Tips
 
-- We recommend users to use **interpolation** version to generate lower-resolution images.
-- We recommend users to use **extrapolation** version to generate higher-resolution images.
-- We recommend users to use `resadapter_v1_sd1.5` and `resadapter_v1_sdxl` for deploying resadapter to generate images with broader resolution.
-- We strongly recommend that you use the prompt corresponding to the personalized model, which helps to enhance the quality of the image.
+1. If you are not satisfied with interpolation images, try to increase the alpha of resadapter to 1.0.
+2. If you are not satisfied with extrapolate images, try to choose the alpha of resadapter in 0.3 ~ 0.7.
+3. If you find the images with style conflicts, try to decrease the alpha of resadapter.
+4. If you find resadapter is not compatible with other accelerate lora, try to decrease the alpha of resadapter to 0.5 ~ 0.7.
 
 ## Acknowledgements
 
 - ResAdapter is developed by AutoML Team at ByteDance Inc, all copyright reserved.
 - Thanks to the [HuggingFace](https://huggingface.co/) gradio team for their free GPU support!
-- Thanks to the [IP-Adapter](), [ControlNet](), [LCM-LoRA]() for their nice work.
+- Thanks to the [IP-Adapter](https://huggingface.co/h94/IP-Adapter), [ControlNet](https://github.com/lllyasviel/ControlNet-v1-1-nightly), [LCM-LoRA](https://huggingface.co/latent-consistency/lcm-lora-sdxl) for their nice work.
+- Thank [@Chenxi](https://github.com/chenxwh) and [@AMEERAZAM08](https://github.com/AMEERAZAM08) to provide gradio demos.
+- Thank [@fengyuzzz](https://github.com/fengyuzzz) to support video demos in [ComfyUI-ResAdapter](https://github.com/jiaxiangc/ComfyUI-ResAdapter/tree/main).
 
-## 🌟 Star History
+## Star History
 [![Star History Chart](https://api.star-history.com/svg?repos=bytedance/res-adapter&type=Date)](https://star-history.com/#bytedance/res-adapter&Date)
 
-## ✈️ Citation
+## Citation
 If you find ResAdapter useful for your research and applications, please cite us using this BibTeX:
 ```
 @article{cheng2024resadapter,
