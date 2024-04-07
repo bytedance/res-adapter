@@ -11,8 +11,6 @@ from diffusers import (
     AutoPipelineForText2Image,
     DPMSolverMultistepScheduler,
     EulerDiscreteScheduler,
-    UNet2DConditionModel,
-    StableDiffusionXLPipeline,
 )
 from huggingface_hub import hf_hub_download
 from safetensors.torch import load_file
@@ -60,22 +58,6 @@ class Predictor(BasePredictor):
             algorithm_type="sde-dpmsolver++",
         )
         self.sdxl_pipe = self.sdxl_pipe.to("cuda")
-
-        # load "ByteDance/SDXL-Lightning"
-        self.sdxl_lightning_pipe = AutoPipelineForText2Image.from_pretrained(
-            SDXL_MODEL_WEIGHTS, torch_dtype=torch.float16, variant="fp16"
-        )
-        repo = "ByteDance/SDXL-Lightning"
-        ckpt = "sdxl_lightning_4step_unet.safetensors"
-        # Load SDXL-Lightning to UNet
-        unet = self.sdxl_lightning_pipe.unet
-        unet.load_state_dict(load_file(hf_hub_download(repo, ckpt), device="cuda"))
-        # Change UNet to pipeline
-        self.sdxl_lightning_pipe.unet = unet
-        self.sdxl_lightning_pipe.scheduler = EulerDiscreteScheduler.from_config(
-            self.sdxl_lightning_pipe.scheduler.config, timestep_spacing="trailing"
-        )
-        self.sdxl_lightning_pipe = self.sdxl_lightning_pipe.to("cuda")
    
         # load "dreamlike-art/dreamlike-diffusion-1.0"
         self.sd15_pipe = AutoPipelineForText2Image.from_pretrained(
@@ -93,28 +75,30 @@ class Predictor(BasePredictor):
         self,
         model_name: str = Input(
             description="Choose a stable diffusion model.",
-            default="ByteDance/SDXL-Lightning",
+            default="dreamlike-art/dreamlike-diffusion-1.0",
             choices=[
                 "Lykon/dreamshaper-xl-1-0",
-                "ByteDance/SDXL-Lightning",
                 "dreamlike-art/dreamlike-diffusion-1.0",
             ],
         ),
+        resadapter_alpha: float = Input(
+            description="Alpha for resadapter", ge=0, le=1, default=0.7,
+        ),
         prompt: str = Input(
             description="Input prompt",
-            default="cinematic film still, photo of a girl, cyberpunk, neonpunk, headset, city at night, sony fe 12-24mm f/2.8 gm, close up, 32k uhd, wallpaper, analog film grain, SONY headset",
+            default="Award-winning photo of a mystical fox girl fox in a serene forest clearing, sunlight filtering through the trees,ethereal,enchanting,vibrant orange fur,piercing amber eyes,delicate floral crown, flowing gown,surrounded by a gentle breeze, whispering leaves,magical atmosphere,captured by renowned photographer Emily Thompson using a Nikon D850,creating a dreamlike and captivating image",
         ),
         negative_prompt: str = Input(
             description="Specify things to not see in the output",
-            default="ugly, deformed, noisy, blurry, nsfw, low contrast, text, BadDream, 3d, cgi, render, fake, anime, open mouth, big forehead, long neck",
+            default="NSFW, poor bad amateur assignment cut out ugly",
         ),
-        width: int = Input(description="Width of output image", default=512),
-        height: int = Input(description="Height of output image", default=512),
+        width: int = Input(description="Width of output image", default=1024),
+        height: int = Input(description="Height of output image", default=1024),
         num_inference_steps: int = Input(
-            description="Number of denoising steps", default=4
+            description="Number of denoising steps", default=25
         ),
         guidance_scale: float = Input(
-            description="Scale for classifier-free guidance", ge=0, le=20, default=0
+            description="Scale for classifier-free guidance", ge=0, le=20, default=7.5
         ),
         seed: int = Input(
             description="Random seed. Leave blank to randomize the seed", default=None
@@ -137,9 +121,6 @@ class Predictor(BasePredictor):
 
         if model_name == "Lykon/dreamshaper-xl-1-0":
             pipe = self.sdxl_pipe
-
-        elif model_name == "ByteDance/SDXL-Lightning":
-            pipe = self.sdxl_lightning_pipe
         else:
             pipe = self.sd15_pipe
 
@@ -167,19 +148,18 @@ class Predictor(BasePredictor):
                 pipe.load_lora_weights(
                     hf_hub_download(
                         repo_id="jiaxiangc/res-adapter",
-                        subfolder="sd1.5",
-                        filename="resolution_lora.safetensors",
+                        subfolder="resadapter_v2_sd1.5",
+                        filename="pytorch_lora_weights.safetensors",
                     ),
                     adapter_name="res_adapter",
                 )
-                pipe.set_adapters(["res_adapter"], adapter_weights=[1.0])
                 print("Load Resolution Norm weights")
                 pipe.unet.load_state_dict(
                     load_file(
                         hf_hub_download(
                             repo_id="jiaxiangc/res-adapter",
-                            subfolder="sd1.5",
-                            filename="resolution_normalization.safetensors",
+                            subfolder="resadapter_v2_sd1.5",
+                            filename="diffusion_pytorch_model.safetensors",
                         )
                     ),
                     strict=False,
@@ -189,12 +169,23 @@ class Predictor(BasePredictor):
                 pipe.load_lora_weights(
                     hf_hub_download(
                         repo_id="jiaxiangc/res-adapter",
-                        subfolder="sdxl-i",
-                        filename="resolution_lora.safetensors",
+                        subfolder="resadapter_v2_sdxl",
+                        filename="pytorch_lora_weights.safetensors",
                     ),
                     adapter_name="res_adapter",
                 )
-                pipe.set_adapters(["res_adapter"], adapter_weights=[1.0])
+                print("Load Resolution Norm weights")
+                pipe.unet.load_state_dict(
+                    load_file(
+                        hf_hub_download(
+                            repo_id="jiaxiangc/res-adapter",
+                            subfolder="resadapter_v2_sdxl",
+                            filename="diffusion_pytorch_model.safetensors",
+                        )
+                    ),
+                    strict=False,
+                )
+        pipe.set_adapters(["res_adapter"], adapter_weights=[resadapter_alpha])
 
         print("Generating images with res_adapter...")
         image = pipe(
