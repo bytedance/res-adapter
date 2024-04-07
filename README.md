@@ -14,8 +14,8 @@ AutoML, ByteDance Inc.
 <a href='https://huggingface.co/papers/2403.02084'><img src='https://img.shields.io/badge/ Paper-Huggingface-blue'></a> 
 ![GitHub Org's stars](https://img.shields.io/github/stars/bytedance%2Fres-adapter)
 
-[![Replicate](https://img.shields.io/badge/Replicate-Gradio-green)](https://replicate.com/bytedance/res-adapter)
-[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Space-red)](https://huggingface.co/spaces/ameerazam08/Res-Adapter-GPU-Demo)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Space-green)](https://huggingface.co/spaces/jiaxiangc/res-adapter)
+[![Replicate](https://img.shields.io/badge/Replicate-Gradio-red)](https://replicate.com/bytedance/res-adapter)
 [![ComfyUI](https://img.shields.io/badge/ComfyUI-ResAdapter-blue)](https://github.com/jiaxiangc/ComfyUI-ResAdapter)
 ![visitors](https://visitor-badge.laobi.icu/badge?page_id=bytedance.res-adapter) 
 
@@ -28,10 +28,12 @@ Comparison examples between resadapter and [dreamlike-diffusion-1.0](https://civ
 
 
 ## Release
-- `[2024/03/30]` 🔥 We release the [ComfyUI-ResAdapter node](https://github.com/jiaxiangc/ComfyUI-ResAdapter).
-- `[2024/03/28]` 🔥 We release the [all resadapter weights](https://huggingface.co/jiaxiangc/res-adapter).
-- `[2024/03/12]` 🔥 We release the [inference code](https://github.com/bytedance/res-adapter/blob/main/main.py) and [gradio demo](https://replicate.com/bytedance/res-adapter).
+- `[2024/04/07]` 🔥 We release the official [gradio space](https://huggingface.co/spaces/jiaxiangc/res-adapter) in Huggingface.
+- `[2024/04/05]` 🔥 We release the [resadapter_v2 weights](https://huggingface.co/jiaxiangc/res-adapter).
+- `[2024/03/30]` 🔥 We release the [ComfyUI-ResAdapter](https://github.com/jiaxiangc/ComfyUI-ResAdapter).
+- `[2024/03/28]` 🔥 We release the [resadapter_v1 weights](https://huggingface.co/jiaxiangc/res-adapter).
 - `[2024/03/04]` 🔥 We release the [arxiv paper](https://arxiv.org/abs/2403.02084).
+<!-- - `[2024/03/12]` Code: 🔥 we release the [inference code](https://github.com/bytedance/res-adapter/blob/main/main.py). -->
 
 
 ## Quicktour
@@ -112,7 +114,7 @@ Hint4: Here is an [installation guidance](models/README.md) for preparing enviro
 
 ## Inference
 
-If you want generate images in our inference script, you should install  library and download related models according to [installation guidance](models/README.md). After filling in [example configs](configs), you can directly run this script.
+If you want generate images in our inference script, you should install dependency libraries and download related models according to [installation guidance](models/README.md). After filling in [example configs](configs), you can directly run this script.
 
 ```bash
 python main.py --config /path/to/file
@@ -178,26 +180,37 @@ Comparison examples (512x512) between resadapter and [dreamshaper-xl-1.0](https:
 ## Community Resource
 
 ### Gradio
-- Replicate website: [bytedance/res-adapter](https://replicate.com/bytedance/res-adapter) by ([@
-Chenxi](https://github.com/chenxwh))
-- Huggingface space: [ameerazam08/Res-Adapter-GPU-Demo](https://huggingface.co/spaces/ameerazam08/Res-Adapter-GPU-Demo) by ([@Ameer Azam](https://github.com/AMEERAZAM08))
+- Replicate website: [bytedance/res-adapter](https://replicate.com/bytedance/res-adapter) by ([@Chenxi](https://github.com/chenxwh))
+- Huggingface space: 
+  - [jiaxiangc/res-adapter](https://huggingface.co/spaces/jiaxiangc/res-adapter) (official space)
+  - [ameerazam08/Res-Adapter-GPU-Demo](https://huggingface.co/spaces/ameerazam08/Res-Adapter-GPU-Demo) by ([@Ameer Azam](https://github.com/AMEERAZAM08))
 
+An text-to-image example about res-adapter in huggingface space. More information in [jiaxiangc/res-adapter](https://huggingface.co/spaces/jiaxiangc/res-adapter).
+
+<img src="assets/misc/huggingface_space_demo.png">
+  
 ### ComfyUI
-- [blepping/ComfyUI-ApplyResAdapterUnet](https://github.com/blepping/ComfyUI-ApplyResAdapterUnet) by ([@
-blepping](https://github.com/blepping))
 - [jiaxiangc/ComfyUI-ResAdapter](https://github.com/jiaxiangc/ComfyUI-ResAdapter) (official comfyui node)
+- [blepping/ComfyUI-ApplyResAdapterUnet](https://github.com/blepping/ComfyUI-ApplyResAdapterUnet) by ([@blepping](https://github.com/blepping))
 
 An text-to image example about ComfyUI-ResAdapter. More examples about lcm-lora, controlnet and ipadapter can be found in [ComfyUI-ResAdapter](https://github.com/jiaxiangc/ComfyUI-ResAdapter/tree/main).
 
 https://github.com/jiaxiangc/ComfyUI-ResAdapter/assets/162297627/82453931-23de-4f72-8a9c-1053c4c8d81a
+
+### WebUI
+
+I am learning how to make webui extension.
 
 ## Local Gradio Demo
 
 Run the following script:
 
 ```bash
+# pip install peft, gradio, httpx==0.23.3
 python app.py
 ```
+
+
 
 ## Usage Tips
 
