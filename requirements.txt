@@ -8,3 +8,5 @@ tqdm
 numpy
 safetensors
 gradio==4.8.0
+peft
+httpx=0.23.3
