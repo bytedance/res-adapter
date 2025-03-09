@@ -28,6 +28,7 @@ Comparison examples between resadapter and [dreamlike-diffusion-1.0](https://civ
 
 
 ## Release
+- `[2024/12/10]` 🔥 ResAdapter is accepted by AAAI 2025.
 - `[2024/04/07]` 🔥 We release the official [gradio space](https://huggingface.co/spaces/jiaxiangc/res-adapter) in Huggingface.
 - `[2024/04/05]` 🔥 We release the [resadapter_v2 weights](https://huggingface.co/jiaxiangc/res-adapter).
 - `[2024/03/30]` 🔥 We release the [ComfyUI-ResAdapter](https://github.com/jiaxiangc/ComfyUI-ResAdapter).
