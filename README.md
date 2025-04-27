@@ -234,11 +234,14 @@ python app.py
 ## Citation
 If you find ResAdapter useful for your research and applications, please cite us using this BibTeX:
 ```
-@article{cheng2024resadapter,
-  title={ResAdapter: Domain Consistent Resolution Adapter for Diffusion Models},
-  author={Cheng, Jiaxiang and Xie, Pan and Xia, Xin and Li, Jiashi and Wu, Jie and Ren, Yuxi and Li, Huixia and Xiao, Xuefeng and Zheng, Min and Fu, Lean},
-  booktitle={arXiv preprint arxiv:2403.02084},
-  year={2024}
+@inproceedings{cheng2025resadapter,
+  title={Resadapter: Domain consistent resolution adapter for diffusion models},
+  author={Cheng, Jiaxiang and Xie, Pan and Xia, Xin and Li, Jiashi and Wu, Jie and Ren, Yuxi and Li, Huixia and Xiao, Xuefeng and Wen, Shilei and Fu, Lean},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={39},
+  number={3},
+  pages={2438--2446},
+  year={2025}
 }
 ```
-For any question, please feel free to contact us via chengjiaxiang@bytedance.com or xiepan.01@bytedance.com.
+For any question, please feel free to contact us via jiaxiangcc@gmail.com or xiepan.01@bytedance.com.
